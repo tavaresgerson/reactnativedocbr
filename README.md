@@ -1,7 +1,7 @@
 # reactnativedocbr
 
 ## The Basics
-* Introduction
+* [Introdução](/docs/getting-started.md)
 * Core Components and Native Components
 * React Fundamentals
 * Handling Text Input
