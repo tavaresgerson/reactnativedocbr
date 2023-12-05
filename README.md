@@ -1,1 +1,126 @@
 # reactnativedocbr
+
+## The Basics
+* Introduction
+* Core Components and Native Components
+* React Fundamentals
+* Handling Text Input
+* Using a ScrollView
+* Using List Views
+* Troubleshooting
+* Platform-Specific Code
+* More Resources
+
+## Environment setup
+* Setting up the development environment
+* Integration with Existing Apps
+* Integration with an Android Fragment
+* Building for TV Devices
+* Out-of-Tree Platforms
+
+## Workflow
+* Running On Device
+* Fast Refresh
+* Metro
+* Symbolicating a stack trace
+* Source Maps
+* Using Libraries
+* Using TypeScript
+* Upgrading to new versions
+
+## UI & Interaction
+* Style
+* Height and Width
+* Layout with Flexbox
+* Images
+* Color Reference
+    ### Interaction
+    * Handling Touches
+    * Navigating Between Screens
+    * Animations
+    * Gesture Responder System
+    ### Connectivity
+    * Networking
+    * Security
+    ### Inclusion
+    * Accessibility
+## Debugging
+* Debugging Basics
+* React Developer Tools
+* Native Debugging
+
+## Testing
+* Testing
+
+## Performance
+* Performance Overview
+* Speeding up your Build phase
+* Speeding Up CI Builds
+* Optimizing Flatlist Configuration
+* RAM Bundles and Inline Requires
+* Profiling
+* Profiling with Hermes
+
+## JavaScript Runtime
+* JavaScript Environment
+* Timers
+* Using Hermes
+
+## Native Modules
+* Native Modules Intro
+* Android Native Modules
+* iOS Native Modules
+* Native Modules NPM Package Setup
+
+## Native Components
+* Android Native UI Components
+* iOS Native UI Components
+* Direct Manipulation
+
+## The New Architecture
+* Introduction
+* Why a New Architecture
+* Creating a New Architecture App
+
+    ### Pillars
+    * What Composes the New Architecture
+    * Turbo Native Modules
+    * Fabric Native Components
+    * Codegen
+
+    ### C++
+    * C++ Turbo Native Modules
+    * Supporting Custom C++ Types
+
+    ### Backward Compatibility
+    * What Backward Compatibility Is
+    * Turbo Modules as Legacy Native Modules
+    * Fabric Components as Legacy Native Components
+
+## Migration to the New Architecture
+* Migrating to the New Architecture
+
+    ### Supporting in your Library
+    * Prerequisites for Libraries
+    * Enabling in Android Library
+    * Enabling in iOS Library
+* Prerequisites for Applications
+* React 18 & React Native
+* Troubleshooting
+* Appendix
+
+## Android and iOS guides
+
+### Android
+    * Headless JS
+    * Publishing to Google Play Store
+    * Communication between native and React Native
+    * React Native Gradle Plugin
+
+### iOS
+    * Linking Libraries
+    * Running On Simulator
+    * Communication between native and React Native
+    * App Extensions    
+    * Publishing to Apple App Store
+
