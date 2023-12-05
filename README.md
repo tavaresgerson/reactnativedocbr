@@ -2,8 +2,8 @@
 
 ## The Basics
 * [Introdução](/docs/getting-started.md)
-* Core Components and Native Components
-* React Fundamentals
+* [Core Componentes and Componentes Nativos](/docs/intro-react-native-components.md)
+* [Fundamentos do React]()
 * Handling Text Input
 * Using a ScrollView
 * Using List Views
