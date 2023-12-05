@@ -13,4 +13,55 @@ No desenvolvimento Android, você escreve visualizações em Kotlin ou Java; no 
 
 React Native vem com um conjunto de componentes nativos essenciais e prontos para uso que você pode usar para começar a construir seu aplicativo hoje mesmo. Estes são os **componentes principais** do React Native.
 
-React Native também permite que você crie seus próprios componentes nativos para [Android](/docs/native-components-android.md) e [iOS](/docs/native-components-ios.md) para atender às necessidades exclusivas do seu aplicativo. Também temos um ecossistema próspero desses componentes contribuídos pela comunidade. Confira o Native Directory para descobrir o que a comunidade está criando.
+React Native também permite que você crie seus próprios componentes nativos para [Android](/docs/native-components-android.md) e [iOS](/docs/native-components-ios.md) para atender às necessidades exclusivas do seu aplicativo. Também temos um ecossistema próspero desses componentes contribuídos pela comunidade. Confira o [Native Directory](https://reactnative.directory/) para descobrir o que a comunidade está criando.
+
+## Core Componentes
+React Native possui muitos componentes principais para tudo, desde controles até indicadores de atividade. Você pode encontrá-los todos [documentados na seção API](/docs/components-and-apis.md). Você trabalhará principalmente com os seguintes componentes principais:
+
+| REACT NATIVE UI COMPONENT	| ANDROID VIEW   | IOS VIEW         | WEB ANÁLOGO            | DESCRIÇÃO  |
+|---------------------------|----------------|------------------|------------------------|--------------|
+| `<View>`                  | `<ViewGroup>`  | `<UIView>`       |	Um `<div>` sem rolagem | Um contêiner que suporta layout com flexbox, estilo, algum manuseio de toque e controles de acessibilidade |
+| `<Text>`                  | `<TextView>`   | `<UITextView>`   | `<p>`                  | Exibe, estiliza e aninha sequências de texto e até mesmo manipula eventos de toque |
+| `<Image>`                 | `<ImageView>`  | `<UIImageView>`  | `<img>`                | Exibe diferentes tipos de imagens |
+| `<ScrollView>`            | `<ScrollView>` | `<UIScrollView>` |	`<div>`                | Um contêiner de rolagem genérico que pode conter vários componentes e visualizações |
+| `<TextInput>`             | `<EditText>`   | `<UITextField>`  | `<input type="text">`  | Permite que o usuário insira texto |
+
+Na próxima seção, você começará a combinar esses componentes principais para aprender como o React funciona:
+
+```js
+import React from 'react';
+import {View, Text, Image, ScrollView, TextInput} from 'react-native';
+
+const App = () => {
+  return (
+    <ScrollView>
+      <Text>Some text</Text>
+      <View>
+        <Text>Some more text</Text>
+        <Image
+          source={{
+            uri: 'https://reactnative.dev/docs/assets/p_cat2.png',
+          }}
+          style={{width: 200, height: 200}}
+        />
+      </View>
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: 'gray',
+          borderWidth: 1,
+        }}
+        defaultValue="You can type in me"
+      />
+    </ScrollView>
+  );
+};
+
+export default App;
+```
+
+Como o React Native usa a mesma estrutura de API dos componentes do React, você precisará entender as APIs dos componentes do React para começar. A próxima seção faz uma rápida introdução ou atualização sobre o tópico. No entanto, se você já estiver familiarizado com o React, sinta-se à vontade para avançar.
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/f1009bc1-442e-4e49-b3da-e22bee14f1b8)
+
+
