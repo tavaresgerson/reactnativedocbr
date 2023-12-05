@@ -6,6 +6,7 @@ React Native é uma estrutura de código aberto para construir aplicativos Andro
 No desenvolvimento Android e iOS, uma visualização é o bloco de construção básico da UI: um pequeno elemento retangular na tela que pode ser usado para exibir texto, imagens ou responder à entrada do usuário. Mesmo os menores elementos visuais de um aplicativo, como uma linha de texto ou um botão, são tipos de visualizações. Alguns tipos de visualizações podem conter outras visualizações. São visualizações até o fim!
 
 ![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/f00c5d22-8185-4844-802b-b672101496de)
+<br>
 _Apenas uma amostra das muitas visualizações usadas em aplicativos Android e iOS._
 
 ## Componentes nativos
