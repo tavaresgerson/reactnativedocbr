@@ -227,3 +227,112 @@ A imagem tem [muitos props diferentes](/docs/image.md#props), incluindo [estilo]
 > Observe as chaves duplas `{{ }}` ao redor da largura e altura do estilo. Em JSX, os valores JavaScript são referenciados com `{}`. Isso é útil se você estiver passando algo diferente de uma string como props, como um array ou número: `<Cat food={["fish", "kibble"]} age={2} />`. No entanto, objetos JS também são indicados com chaves: `{largura: 200, altura: 200}`. Portanto, para passar um objeto JS em JSX, você deve envolver o objeto em outro par de chaves: `{{largura: 200, altura: 200}}`
 
 Você pode construir muitas coisas com props e os componentes principais `Text`, `Image` e `View`! Mas para construir algo interativo, você precisará de estado.
+
+## State
+Embora você possa pensar em props como argumentos usados para configurar como os componentes são renderizados, o estado é como o armazenamento de dados pessoais de um componente. O estado é útil para lidar com dados que mudam ao longo do tempo ou provenientes da interação do usuário. O estado dá memória aos seus componentes!
+
+> Como regra geral, use props para configurar um componente quando ele for renderizado. Use o estado para acompanhar todos os dados do componente que você espera alterar ao longo do tempo.
+
+O exemplo a seguir ocorre em um café para gatos, onde dois gatos famintos estão esperando para serem alimentados. A sua fome, que esperamos que mude com o tempo (ao contrário dos seus nomes), é armazenada como estado. Para alimentar os gatos, pressione seus botões – o que atualizará seu estado.
+
+Você pode adicionar estado a um componente chamando o [hook (gancho) `useState` do React](https://react.dev/learn/state-a-components-memory). Um Hook é um tipo de função que permite "conectar-se" aos recursos do React. Por exemplo, `useState` é um gancho que permite adicionar estado aos componentes da função. Você pode aprender mais sobre outros tipos de [Hooks na documentação do React](https://react.dev/reference/react).
+
+```jsx
+import React, {useState} from 'react';
+import {Button, Text, View} from 'react-native';
+
+const Cat = props => {
+  const [isHungry, setIsHungry] = useState(true);
+
+  return (
+    <View>
+      <Text>
+        I am {props.name}, and I am {isHungry ? 'hungry' : 'full'}!
+      </Text>
+      <Button
+        onPress={() => {
+          setIsHungry(false);
+        }}
+        disabled={!isHungry}
+        title={isHungry ? 'Pour me some milk, please!' : 'Thank you!'}
+      />
+    </View>
+  );
+};
+
+const Cafe = () => {
+  return (
+    <>
+      <Cat name="Munkustrap" />
+      <Cat name="Spot" />
+    </>
+  );
+};
+
+export default Cafe;
+```
+
+![Captura de tela de 2023-12-05 19-33-58](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/94a9f46c-a021-4cf2-8f7a-9cf34cf2a858)
+
+Primeiro, você desejará importar `useState` do React assim:
+
+```jsx
+import React, {useState} from 'react';
+```
+
+Então você declara o estado do componente chamando `useState` dentro de sua função. Neste exemplo, `useState` cria uma variável de estado com o nome `isHungry`:
+
+```jsx
+const Cat = (props: CatProps) => {
+  const [isHungry, setIsHungry] = useState(true);
+  // ...
+};
+```
+> Você pode usar `useState` para rastrear qualquer tipo de dados: strings, números, booleanos, arrays, objetos. Por exemplo, você pode monitorar o número de vezes que um gato foi acariciado com const `[timesPetted, setTimesPetted] = useState(0)`!
+
+Chamar `useState` faz duas coisas:
+
+* ele cria uma "variável de estado" com um valor inicial – neste caso a variável de estado é `isHungry` e seu valor inicial é verdadeiro
+* ele cria uma função para definir o valor dessa variável de estado – `setIsHungry`
+
+Não importa quais nomes você usa. Mas pode ser útil pensar no padrão como `[<getter>, <setter>] = useState(<initialValue>)`.
+
+Em seguida, você adiciona o componente `Button` e atribui a ele uma propriedade `onPress`:
+
+```jsx
+<Button
+  onPress={() => {
+    setIsHungry(false);
+  }}
+  //..
+/>
+```
+
+Agora, quando alguém pressiona o botão, `onPress` será acionado, chamando `setIsHungry(false)`. Isso define a variável de estado `isHungry` como falsa. Quando `isHungry` é falso, a propriedade desabilitada do `Button` é definida como verdadeira e seu título também muda:
+
+```jsx
+<Button
+  //..
+  disabled={!isHungry}
+  title={isHungry ? 'Pour me some milk, please!' : 'Thank you!'}
+/>
+```
+
+> Você deve ter notado que embora `isHungry` seja uma `const`, é aparentemente reatribuível! O que está acontecendo é que quando uma função de configuração de estado como `setIsHungry` é chamada, seu componente será renderizado novamente. Neste caso, a função `Cat` será executada novamente – e desta vez, `useState` nos dará o próximo valor de `isHungry`.
+
+Finalmente, coloque seus gatos dentro de um componente Café:
+
+```jsx
+const Cafe = () => {
+  return (
+    <>
+      <Cat name="Munkustrap" />
+      <Cat name="Spot" />
+    </>
+  );
+};
+```
+
+> Observe o `<>` e `</>` acima, esses bits de JSX são denominados como: [Fragmentos](https://react.dev/reference/react/Fragment). Os elementos JSX adjacentes devem ser agrupados em uma tag envolvente. Os fragmentos permitem fazer isso sem aninhar um elemento de encapsulamento extra e desnecessário, como `View`.
+
+Agora que você cobriu os componentes principais do React e do React Native, vamos nos aprofundar em alguns desses componentes principais examinando o [tratamento de `<TextInput>`](/docs/handling-text-input.md).
