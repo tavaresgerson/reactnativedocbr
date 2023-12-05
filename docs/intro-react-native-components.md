@@ -1,0 +1,16 @@
+# Componentes principais e componentes nativos
+
+React Native é uma estrutura de código aberto para construir aplicativos Android e iOS usando React e os recursos nativos da plataforma de aplicativos. Com o React Native, você usa JavaScript para acessar as APIs da sua plataforma, bem como para descrever a aparência e o comportamento da sua UI usando componentes do React: pacotes de código reutilizável e aninhado. Você pode aprender mais sobre React na próxima seção. Mas primeiro, vamos abordar como os componentes funcionam no React Native.
+
+## Visualizações e desenvolvimento móvel
+No desenvolvimento Android e iOS, uma visualização é o bloco de construção básico da UI: um pequeno elemento retangular na tela que pode ser usado para exibir texto, imagens ou responder à entrada do usuário. Mesmo os menores elementos visuais de um aplicativo, como uma linha de texto ou um botão, são tipos de visualizações. Alguns tipos de visualizações podem conter outras visualizações. São visualizações até o fim!
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/f00c5d22-8185-4844-802b-b672101496de)
+_Apenas uma amostra das muitas visualizações usadas em aplicativos Android e iOS._
+
+## Componentes nativos
+No desenvolvimento Android, você escreve visualizações em Kotlin ou Java; no desenvolvimento iOS, você usa Swift ou Objective-C. Com React Native, você pode invocar essas visualizações com JavaScript usando componentes React. Em tempo de execução, o React Native cria as visualizações Android e iOS correspondentes para esses componentes. Como os componentes React Native são apoiados pelas mesmas visualizações do Android e iOS, os aplicativos React Native têm aparência, comportamento e desempenho como qualquer outro aplicativo. Chamamos esses componentes apoiados pela plataforma de **Componentes Nativos**.
+
+React Native vem com um conjunto de componentes nativos essenciais e prontos para uso que você pode usar para começar a construir seu aplicativo hoje mesmo. Estes são os **componentes principais** do React Native.
+
+React Native também permite que você crie seus próprios componentes nativos para [Android](/docs/native-components-android.md) e [iOS](/docs/native-components-ios.md) para atender às necessidades exclusivas do seu aplicativo. Também temos um ecossistema próspero desses componentes contribuídos pela comunidade. Confira o Native Directory para descobrir o que a comunidade está criando.
