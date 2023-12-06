@@ -1,4 +1,4 @@
-# Usando visualizações de lista
+# Usando List View
 React Native fornece um conjunto de componentes para apresentar listas de dados. Geralmente, você desejará usar [`FlatList`](/docs/flatlist.md) ou [`SectionList`](/docs/sectionlist.md).
 
 O componente `FlatList` exibe uma lista de rolagem de dados alterados, mas estruturados de forma semelhante. `FlatList` funciona bem para longas listas de dados, onde o número de itens pode mudar com o tempo. Ao contrário do [`ScrollView`](/docs/using-a-scrollview.md) mais genérico, o `FlatList` renderiza apenas os elementos que estão sendo exibidos na tela no momento, e não todos os elementos de uma vez.
