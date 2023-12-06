@@ -5,9 +5,9 @@
 * [Core Componentes and Componentes Nativos](/docs/intro-react-native-components.md)
 * [Fundamentos do React](/docs/intro-react.md)
 * [Tratamento de entrada de texto](/docs/handling-text-input.md)
-* Using a ScrollView
-* Using List Views
-* Troubleshooting
+* [Usando um ScrollView](/docs/using-a-scrollview.md)
+* [Usando List Views](/docs/using-a-listview.md)
+* [Solução de problemas](/docs/troubleshooting.md)
 * Platform-Specific Code
 * More Resources
 
