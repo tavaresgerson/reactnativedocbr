@@ -1,10 +1,10 @@
-# reactnativedocbr
+# Documentação em português do React Native
 
 ## The Basics
 * [Introdução](/docs/getting-started.md)
 * [Core Componentes and Componentes Nativos](/docs/intro-react-native-components.md)
-* [Fundamentos do React]()
-* Handling Text Input
+* [Fundamentos do React](/docs/intro-react.md)
+* [Tratamento de entrada de texto](/docs/handling-text-input.md)
 * Using a ScrollView
 * Using List Views
 * Troubleshooting
