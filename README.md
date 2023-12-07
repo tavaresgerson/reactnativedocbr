@@ -8,8 +8,8 @@
 * [Usando um ScrollView](/docs/using-a-scrollview.md)
 * [Usando List Views](/docs/using-a-listview.md)
 * [Solução de problemas](/docs/troubleshooting.md)
-* Platform-Specific Code
-* More Resources
+* [Código específico da plataforma](/docs/platform-specific-code.md)
+* [Mais recursos](/docs/more-resources.md)
 
 ## Environment setup
 * Setting up the development environment
