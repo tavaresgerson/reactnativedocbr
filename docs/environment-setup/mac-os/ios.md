@@ -124,3 +124,19 @@ Esta é uma maneira de executar seu aplicativo. Você também pode executá-lo d
 ##### Executando em um dispositivo
 O comando acima executará automaticamente seu aplicativo no iOS Simulator por padrão. Se você deseja executar o aplicativo em um dispositivo iOS físico real, siga as instruções [aqui](/docs/running-on-device.md).
 
+#### Modificando seu aplicativo
+Agora que você executou o aplicativo com sucesso, vamos modificá-lo.
+
+* Abra `App.tsx` no editor de texto de sua preferência e edite algumas linhas.
+* Pressione `Cmd ⌘` + `R` no seu simulador iOS para recarregar o aplicativo e ver suas alterações!
+
+#### É isso!
+Parabéns! Você executou e modificou com sucesso seu primeiro aplicativo React Native.
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/bc864112-bd55-43b6-8369-9d78e896376e)
+
+#### E agora?
+
+* Se você deseja adicionar este novo código React Native a um aplicativo existente, consulte o [guia de integração](/docs/integration-with-existing-apps.md).
+
+Se você estiver curioso para saber mais sobre o React Native, confira a [Introdução ao React Native](https://reactnative.dev/docs/getting-started.md).
