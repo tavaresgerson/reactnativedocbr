@@ -153,3 +153,20 @@ Se tudo estiver configurado corretamente, você deverá ver seu novo aplicativo 
 Essa é uma maneira de executar seu aplicativo: você também pode executá-lo diretamente no Android Studio.
 
 > Se você não conseguir fazer isso funcionar, consulte a página [Solução de problemas](/docs/troubleshooting.md).
+
+#### Modificando seu aplicativo
+Agora que você executou o aplicativo com sucesso, vamos modificá-lo.
+
+* Abra `App.tsx` no editor de texto de sua preferência e edite algumas linhas.
+* Pressione a tecla `R` duas vezes ou selecione `Reload` no menu Dev (`Cmd ⌘` + `M`) para ver suas alterações!
+
+#### É isso!
+Parabéns! Você executou e modificou com sucesso seu primeiro aplicativo React Native.
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/c6b24c43-2e07-4845-9c2e-133189349b1c)
+
+#### E agora?
+
+* Se você deseja adicionar este novo código React Native a um aplicativo existente, consulte o [guia de integração](/docs/integration-with-existing-apps.md).
+
+Se você estiver curioso para saber mais sobre o React Native, confira a [Introdução ao React Native](/docs/getting-started.md).
