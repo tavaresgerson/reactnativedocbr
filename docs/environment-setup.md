@@ -37,5 +37,13 @@ As instruções são um pouco diferentes dependendo do seu sistema operacional d
 
 ### macOS
 
-[Android](/docs/environment-setup/mac-os/android.md)
-[iOS](/docs/environment-setup/mac-os/ios.md)
+* [Android](/docs/environment-setup/mac-os/android.md)
+* [iOS](/docs/environment-setup/mac-os/ios.md)
+
+### Windows
+* [Android](/docs/environment-setup/windows/android.md)
+* iOS
+
+### Linux
+* Android
+* iOS
