@@ -42,8 +42,8 @@ As instruções são um pouco diferentes dependendo do seu sistema operacional d
 
 ### Windows
 * [Android](/docs/environment-setup/windows/android.md)
-* iOS
+* iOS _(Não compatível)_
 
 ### Linux
-* Android
-* iOS
+* [Android](/docs/environment-setup/linux/android.md)
+* iOS _(Não compatível)_
