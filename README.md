@@ -12,8 +12,8 @@
 * [Mais recursos](/docs/more-resources.md)
 
 ## Environment setup
-* Setting up the development environment
-* Integration with Existing Apps
+* [Configurando o ambiente de desenvolvimento](/docs/environment-setup.md)
+* [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)
 * Integration with an Android Fragment
 * Building for TV Devices
 * Out-of-Tree Platforms
