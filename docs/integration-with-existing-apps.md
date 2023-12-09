@@ -3,7 +3,7 @@ React Native é ótimo quando você inicia um novo aplicativo móvel do zero. No
 
 As etapas específicas são diferentes dependendo da plataforma que você está almejando.
 
-* [Android (Kotlin)](/docs/integration-with-existing-apps/android-koltin.md)
+* [Android (Kotlin)](/docs/integration-with-existing-apps/android-kotlin.md)
 * [Android (Java)](/docs/integration-with-existing-apps/android-java.md)
 * [iOS (Objective-C)](/docs/integration-with-existing-apps/ios-objective-c.md)
 * [iOS (Swift)](/docs/integration-with-existing-apps/ios-swift.md)
