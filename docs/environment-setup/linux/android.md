@@ -60,6 +60,98 @@ Digite `source $HOME/.bash_profile` para bash ou `source $HOME/.zprofile` para c
 
 
 #### Watchman
+Siga o guia de [instalação do Watchman](https://facebook.github.io/watchman/docs/install#buildinstall) para compilar e instalar o Watchman a partir do código-fonte.
 
+> [Watchman](https://facebook.github.io/watchman/docs/install) é uma ferramenta do Facebook para observar mudanças no sistema de arquivos. É altamente recomendável que você o instale para obter melhor desempenho e maior compatibilidade em certos casos extremos (tradução: você pode conseguir sobreviver sem instalar isso, mas sua milhagem pode variar; instalar isso agora pode evitar dores de cabeça mais tarde).
 
+##### Interface de linha de comando nativa do React
+React Native possui uma interface de linha de comando integrada. Em vez de instalar e gerenciar uma versão específica da CLI globalmente, recomendamos que você acesse a versão atual em tempo de execução usando `npx`, que acompanha o Node.js. Com `npx react-native <command>`, a versão estável atual da CLI será baixada e executada no momento em que o comando for executado.
 
+#### Criando um novo aplicativo
+
+> Se você instalou anteriormente um pacote global `react-native-cli`, remova-o, pois pode causar problemas inesperados:
+>```
+> npm desinstalar -g react-native-cli @react-native-community/cli
+>```
+
+React Native possui uma interface de linha de comando integrada, que você pode usar para gerar um novo projeto. Você pode acessá-lo sem instalar nada globalmente usando o `npx`, que acompanha o Node.js. Vamos criar um novo projeto React Native chamado "AwesomeProject":
+
+```bash
+npx react-native@latest init AwesomeProject
+```
+
+Isso não é necessário se você estiver integrando o React Native em um aplicativo existente, se você "expulsou" da Expo ou se estiver adicionando suporte Android a um projeto React Native existente (consulte [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)). Você também pode usar uma CLI de terceiros para iniciar seu aplicativo React Native, como [Ignite CLI](https://github.com/infinitered/ignite).
+
+##### [Opcional] Usando uma versão ou modelo específico
+Se quiser iniciar um novo projeto com uma versão específica do React Native, você pode usar o argumento `--version`:
+
+```bash
+npx react-native@X.XX.X init AwesomeProject --version X.XX.X
+```
+
+Você também pode iniciar um projeto com um modelo React Native personalizado com o argumento `--template`.
+
+#### Preparando o dispositivo Android
+Você precisará de um dispositivo Android para executar seu aplicativo React Native para Android. Pode ser um dispositivo Android físico ou, mais comumente, você pode usar um dispositivo virtual Android que permite emular um dispositivo Android em seu computador.
+
+De qualquer forma, você precisará preparar o dispositivo para executar aplicativos Android para desenvolvimento.
+
+##### Usando um dispositivo físico
+Se você tiver um dispositivo Android físico, poderá usá-lo para desenvolvimento no lugar de um AVD, conectando-o ao computador usando um cabo USB e seguindo as instruções [aqui](/docs/running-on-device.md).
+
+##### Usando um dispositivo virtual
+Se você usar o Android Studio para abrir `./AwesomeProject/android`, poderá ver a lista de dispositivos virtuais Android (AVDs) disponíveis abrindo o "AVD Manager" no Android Studio. Procure um ícone parecido com este:
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/dd92bced-126d-4a95-8e6b-11c8d962e80d)
+
+Se você instalou recentemente o Android Studio, provavelmente precisará [criar um novo AVD](https://developer.android.com/studio/run/managing-avds.html). Selecione "Create Virtual Device...", escolha qualquer telefone da lista e clique em "Next" e selecione a imagem **Tiramisu** API nível 33.
+
+> Recomendamos configurar a [aceleração de VM](https://developer.android.com/studio/run/emulator-acceleration.html#vm-linux) em seu sistema para melhorar o desempenho. Depois de seguir essas instruções, volte para o AVD Manager.
+
+Clique em "Next" e depois em "Finish" para criar seu AVD. Neste ponto, você poderá clicar no botão de triângulo verde próximo ao seu AVD para iniciá-lo e, em seguida, prosseguir para a próxima etapa.
+
+#### Executando seu aplicativo React Native
+
+##### Etapa 1: iniciar o Metro
+[Metro](https://facebook.github.io/metro/) é a ferramenta de construção JavaScript para React Native. Para iniciar o servidor de desenvolvimento Metro, execute o seguinte na pasta do projeto:
+
+```bash
+npm start
+# ou
+yarn start
+```
+
+> **OBSERVAÇÃO**
+> Se você estiver familiarizado com desenvolvimento web, o Metro é semelhante a empacotadores como Vite e webpack, mas foi projetado de ponta a ponta para React Native. Por exemplo, Metro usa [Babel](https://babel.dev/) para transformar sintaxe como JSX em JavaScript executável.
+
+##### Etapa 2: inicie seu aplicativo
+Deixe o Metro Bundler rodar em seu próprio terminal. Abra um novo terminal dentro da pasta do projeto React Native. Execute o seguinte:
+
+```
+npm run android
+# ou
+yarn android
+```
+
+Se tudo estiver configurado corretamente, você deverá ver seu novo aplicativo em execução no emulador do Android em breve.
+
+Essa é uma maneira de executar seu aplicativo: você também pode executá-lo diretamente no Android Studio.
+
+> Se você não conseguir fazer isso funcionar, consulte a página [Solução de problemas](/docs/troubleshooting.md).
+
+##### Modificando seu aplicativo
+Agora que você executou o aplicativo com sucesso, vamos modificá-lo.
+
+* Abra `App.tsx` no editor de texto de sua preferência e edite algumas linhas.
+* Pressione a tecla `R` duas vezes ou selecione `Reload` no menu Dev (`Ctrl` + `M`) para ver suas alterações!
+
+#### É isso!
+Parabéns! Você executou e modificou com sucesso seu primeiro aplicativo React Native.
+
+![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/a9841891-8ab4-4245-8745-43d45a63e716)
+
+#### E agora?
+
+* Se você deseja adicionar este novo código React Native a um aplicativo existente, consulte o [guia de integração](/docs/integration-with-existing-apps.md).
+
+Se você estiver curioso para saber mais sobre o React Native, confira a [Introdução ao React Native](/docs/getting-started.md).
