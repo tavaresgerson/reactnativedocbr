@@ -1,6 +1,6 @@
 # Documentação em português do React Native
 
-## The Basics
+## Básico
 * [Introdução](/docs/getting-started.md)
 * [Core Componentes and Componentes Nativos](/docs/intro-react-native-components.md)
 * [Fundamentos do React](/docs/intro-react.md)
@@ -11,7 +11,7 @@
 * [Código específico da plataforma](/docs/platform-specific-code.md)
 * [Mais recursos](/docs/more-resources.md)
 
-## Environment setup
+## Configuração do ambiente
 * [Configurando o ambiente de desenvolvimento](/docs/environment-setup.md)
 * [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)
 * Integration with an Android Fragment
