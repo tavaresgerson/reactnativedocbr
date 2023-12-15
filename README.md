@@ -14,7 +14,7 @@
 ## Configuração do ambiente
 * [Configurando o ambiente de desenvolvimento](/docs/environment-setup.md)
 * [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)
-* Integration with an Android Fragment
+* [Integração com um fragmento Android](/docs/integration-with-android-fragment.md)
 * Building for TV Devices
 * Out-of-Tree Platforms
 
