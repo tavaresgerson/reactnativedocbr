@@ -15,7 +15,7 @@
 * [Configurando o ambiente de desenvolvimento](/docs/environment-setup.md)
 * [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)
 * [Integração com um fragmento Android](/docs/integration-with-android-fragment.md)
-* Building for TV Devices
+* [Construindo para TV](/docs/building-for-tv.md)
 * Out-of-Tree Platforms
 
 ## Workflow
