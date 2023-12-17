@@ -16,7 +16,7 @@
 * [Integração com aplicativos existentes](/docs/integration-with-existing-apps.md)
 * [Integração com um fragmento Android](/docs/integration-with-android-fragment.md)
 * [Construindo para TV](/docs/building-for-tv.md)
-* Out-of-Tree Platforms
+* [Plataformas fora da árvore](/docs/out-of-tree-platforms.md)
 
 ## Workflow
 * Running On Device
