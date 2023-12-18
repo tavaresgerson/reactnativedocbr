@@ -19,7 +19,7 @@
 * [Plataformas fora da árvore](/docs/out-of-tree-platforms.md)
 
 ## Workflow
-* Running On Device
+* [Executando no dispositivo](/docs/running-on-device.md)
 * Fast Refresh
 * Metro
 * Symbolicating a stack trace
