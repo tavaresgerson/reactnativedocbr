@@ -9,6 +9,6 @@
   * [Windows](/docs/running-on-device/android-windows.md)
   * [Linux](/docs/running-on-device/android-linux.md)
 * **iOS**
-  * macOS
-  * Windows
-  * Linux
+  * [macOS](/docs/running-on-device/ios-macos.md)
+  * Windows - Não suportado 
+  * Linux - Não suportado
