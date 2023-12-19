@@ -7,7 +7,7 @@
 * **Android**
   * [macOS](/docs/running-on-device/android-mac-os.md)
   * [Windows](/docs/running-on-device/android-windows.md)
-  * Linux
+  * [Linux](/docs/running-on-device/android-linux.md)
 * **iOS**
   * macOS
   * Windows
