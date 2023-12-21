@@ -20,8 +20,8 @@
 
 ## Workflow
 * [Executando no dispositivo](/docs/running-on-device.md)
-* Fast Refresh
-* Metro
+* [Atualização rápida](/docs/fast-refresh.md)
+* [Metro](/docs/metro.md)
 * Symbolicating a stack trace
 * Source Maps
 * Using Libraries
