@@ -112,15 +112,14 @@
 ## Android and iOS guides
 
 ### Android
-    * Headless JS
-    * Publishing to Google Play Store
-    * Communication between native and React Native
-    * React Native Gradle Plugin
+* Headless JS
+* Publishing to Google Play Store
+* Communication between native and React Native
+* React Native Gradle Plugin
 
 ### iOS
-    * Linking Libraries
-    * Running On Simulator
-    * Communication between native and React Native
-    * App Extensions    
-    * Publishing to Apple App Store
-
+* Linking Libraries
+* Running On Simulator
+* Communication between native and React Native
+* App Extensions    
+* Publishing to Apple App Store
