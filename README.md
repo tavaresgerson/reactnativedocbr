@@ -1,4 +1,4 @@
-# Documentação em português do React Native
+# Documentação em português do React Native 0.72
 
 ## Básico
 * [Introdução](/docs/getting-started.md)
@@ -25,8 +25,8 @@
 * [Simbolizando um rastreamento de pilha](/docs/symbolication.md)
 * [Mapas de origem](/docs/sourcemaps.md)
 * [Usando bibliotecas](/docs/libraries.md)
-* Using TypeScript
-* Upgrading to new versions
+* [Usando TypeScript](/docs/typescript.md)
+* [Atualizando para novas versões](/docs/upgrading.md)
 
 ## UI & Interaction
 * Style
