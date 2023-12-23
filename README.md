@@ -22,9 +22,9 @@
 * [Executando no dispositivo](/docs/running-on-device.md)
 * [Atualização rápida](/docs/fast-refresh.md)
 * [Metro](/docs/metro.md)
-* Symbolicating a stack trace
-* Source Maps
-* Using Libraries
+* [Simbolizando um rastreamento de pilha](/docs/symbolication.md)
+* [Mapas de origem](/docs/sourcemaps.md)
+* [Usando bibliotecas](/docs/libraries.md)
 * Using TypeScript
 * Upgrading to new versions
 
