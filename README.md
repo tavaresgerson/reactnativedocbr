@@ -29,9 +29,9 @@
 * [Atualizando para novas versões](/docs/upgrading.md)
 
 ## UI & Interaction
-* Style
-* Height and Width
-* Layout with Flexbox
+* [Estilo](/docs/style.md)
+* [Altura e largura](/docs/height-and-width.md)
+* [Layout com Flexbox](/docs/flexbox.md)
 * Images
 * Color Reference
     ### Interaction
