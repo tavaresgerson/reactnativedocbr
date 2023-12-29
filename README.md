@@ -32,7 +32,7 @@
 * [Estilo](/docs/style.md)
 * [Altura e largura](/docs/height-and-width.md)
 * [Layout com Flexbox](/docs/flexbox.md)
-* Images
+* [Imagens](/docs/images.md)
 * Color Reference
     ### Interaction
     * Handling Touches
