@@ -33,10 +33,10 @@
 * [Altura e largura](/docs/height-and-width.md)
 * [Layout com Flexbox](/docs/flexbox.md)
 * [Imagens](/docs/images.md)
-* Color Reference
-    ### Interaction
-    * Handling Touches
-    * Navigating Between Screens
+* [Referência de Cores](/docs/colors.md)
+    ### Interação
+    * [Lidando com Toques](/docs/handling-touches.md)
+    * [Navegando entre telas](/docs/navigation.md)
     * Animations
     * Gesture Responder System
     ### Connectivity
