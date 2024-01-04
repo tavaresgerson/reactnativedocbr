@@ -37,7 +37,7 @@
     ### Interação
     * [Lidando com Toques](/docs/handling-touches.md)
     * [Navegando entre telas](/docs/navigation.md)
-    * Animations
+    * [Animações](/docs/animations.md)
     * Gesture Responder System
     ### Connectivity
     * Networking
