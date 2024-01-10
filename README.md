@@ -35,10 +35,10 @@
 * [Imagens](/docs/images.md)
 * [Referência de Cores](/docs/colors.md)
     ### Interação
-    * [Lidando com Toques](/docs/handling-touches.md)
+    * [Lidando com toques](/docs/handling-touches.md)
     * [Navegando entre telas](/docs/navigation.md)
     * [Animações](/docs/animations.md)
-    * Gesture Responder System
+    * [Sistema de resposta por gestos](/docs/gesture-responder-system.md)
     ### Connectivity
     * Networking
     * Security
