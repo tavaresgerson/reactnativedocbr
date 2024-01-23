@@ -41,7 +41,7 @@
     * [Sistema de resposta por gestos](/docs/gesture-responder-system.md)
     ### Connectivity
     * [Rede](/docs/network.md)
-    * Security
+    * [Segurança](/docs/security.md)
     ### Inclusion
     * Accessibility
 ## Debugging
