@@ -188,3 +188,240 @@ Um valor booleano que indica se os elementos de acessibilidade contidos neste el
 Por exemplo, em uma janela que contém visualizações irmãs `A` e `B`, definir `accessibilityElementsHidden` como verdadeiro na visualização `B` faz com que o VoiceOver ignore os elementos na visualização B. Isso é semelhante à propriedade Android `importantForAccessibility="no-hide-descendants"`.
 
 ### aria-valuemax
+Representa o valor máximo para componentes baseados em intervalo, como controles deslizantes e barras de progresso.
+
+### aria-valuemin
+Representa o valor mínimo para componentes baseados em intervalo, como controles deslizantes e barras de progresso.
+
+### aria-valuenow
+Representa o valor atual para componentes baseados em intervalo, como controles deslizantes e barras de progresso.
+
+### aria-valuetext
+Representa a descrição textual do componente.
+
+### aria-busy
+Indica que um elemento está sendo modificado e que as tecnologias assistivas podem querer esperar até que as alterações sejam concluídas antes de informar o usuário sobre a atualização.
+
+| TIPO     |	PADRÃO |
+|----------|---------|
+| boolean	 | `false` |
+
+
+### aria-checked
+Indica o estado de um elemento verificável. Este campo pode receber uma string booleana ou "mista" para representar caixas de seleção mistas.
+
+| TIPO             | PADRÃO   |
+|------------------|----------|
+| boolean, 'mixed' |	`false` |
+
+### aria-disabled
+Indica que o elemento é perceptível, mas desabilitado, portanto não é editável ou operável de outra forma.
+
+| TIPO     |	PADRÃO |
+|----------|---------|
+| boolean	 | `false` |
+
+### aria-expanded
+Indica se um elemento expansível está atualmente expandido ou recolhido.
+
+| TIPO     |	PADRÃO |
+|----------|---------|
+| boolean	 | `false` |
+
+### aria-hidden
+Indica se os elementos de acessibilidade contidos neste elemento de acessibilidade estão ocultos.
+
+Por exemplo, numa janela que contém vistas irmãs `A` e `B`, definir aria-hidden como verdadeiro na vista `B` faz com que o VoiceOver ignore os elementos na vista `B`.
+
+| TIPO     |	PADRÃO |
+|----------|---------|
+| boolean	 | `false` |
+
+### aria-label
+Define um valor de string que rotula um elemento interativo.
+
+| TIPO     |
+|----------|
+| string	 |
+
+### aria-labelledby [Android]
+Identifica o elemento que rotula o elemento ao qual é aplicado. O valor de aria-labelledby deve corresponder ao [nativeID](/docs/view#nativeid) do elemento relacionado:
+
+```jsx
+<View>
+  <Text nativeID="formLabel">Label for Input Field</Text>
+  <TextInput aria-label="input" aria-labelledby="formLabel" />
+</View>
+```
+| TIPO     |
+|----------|
+| string	 |
+
+### aria-live [Android]
+Indica que um elemento será atualizado e descreve os tipos de atualizações que os agentes de usuário, as tecnologias assistivas e o usuário podem esperar da região ativa.
+
+* **off** Os serviços de acessibilidade não devem anunciar alterações nesta visualização.
+* **polite** Os serviços de acessibilidade devem anunciar alterações nesta visão.
+* **assertive** Os serviços de acessibilidade devem interromper o discurso em curso para anunciar imediatamente alterações nesta visão.
+
+| TIPO                                   |	PADRÃO |
+|----------------------------------------|---------|
+| `enum('assertive', 'off', 'polite')`	 | `'off'` |
+
+### aria-modal [iOS]
+Valor booleano que indica se o VoiceOver deve ignorar os elementos nas visualizações que são irmãos do receptor.
+
+| TIPO     |	PADRÃO |
+|----------|---------|
+| boolean	 | `false` |
+
+### aria-selected
+Indica se um elemento selecionável está selecionado ou não.
+
+| TIPO     |
+|----------|
+| boolean	 |
+
+### importantForAccessibility [Android]
+No caso de dois componentes de UI sobrepostos com o mesmo pai, o foco de acessibilidade padrão pode ter um comportamento imprevisível. A propriedade `importantForAccessibility` resolverá isso controlando se uma visualização dispara eventos de acessibilidade e se é reportada aos serviços de acessibilidade. Pode ser definido como `auto`, `yes`, `no` e `no-hide-descendants` (o último valor forçará os serviços de acessibilidade a ignorar o componente e todos os seus filhos).
+
+```jsx
+<View style={styles.container}>
+  <View
+    style={[styles.layout, {backgroundColor: 'green'}]}
+    importantForAccessibility="yes">
+    <Text>First layout</Text>
+  </View>
+  <View
+    style={[styles.layout, {backgroundColor: 'yellow'}]}
+    importantForAccessibility="no-hide-descendants">
+    <Text>Second layout</Text>
+  </View>
+</View>
+```
+
+No exemplo acima, o layout `yellow` e seus descendentes são completamente invisíveis para o TalkBack e todos os outros serviços de acessibilidade. Assim, podemos usar visualizações sobrepostas com o mesmo pai sem confundir o TalkBack.
+
+### onAccessibilityEscape [iOS]
+Atribua esta propriedade a uma função personalizada que será chamada quando alguém realizar o gesto de "escape", que é um gesto em forma de Z com dois dedos. Uma função de escape deve voltar hierarquicamente na interface do usuário. Isso pode significar subir ou voltar em uma hierarquia de navegação ou descartar uma interface de usuário modal. Se o elemento selecionado não tiver uma função `onAccessibilityEscape`, o sistema tentará percorrer a hierarquia de visualizações até encontrar uma visualização que tenha ou piscar para indicar que não foi possível encontrar uma.
+
+### onAccessibilityTap
+Use esta propriedade para atribuir uma função personalizada a ser chamada quando alguém ativar um elemento acessível tocando duas vezes nele enquanto estiver selecionado.
+
+### onMagicTap [iOS]
+Atribua esta propriedade a uma função personalizada que será chamada quando alguém realizar o gesto de "toque mágico", que é um toque duplo com dois dedos. Uma função de toque mágico deve executar a ação mais relevante que um usuário pode realizar em um componente. No aplicativo Telefone do iPhone, um toque mágico atende uma chamada ou encerra a atual. Se o elemento selecionado não tiver uma função onMagicTap, o sistema percorrerá a hierarquia de visualizações até encontrar uma visualização que tenha.
+
+### role
+`role` comunica a finalidade de um componente e tem precedência sobre a propriedade [accessRole](#accessibilityrole).
+
+a função pode ser uma das seguintes:
+
+* **alert** Usado quando um elemento contém texto importante a ser apresentado ao usuário.
+* **button** Usado quando o elemento deve ser tratado como um botão.
+* **checkbox** Usado quando um elemento representa uma caixa de seleção que pode ser marcada, desmarcada ou ter um estado misto de marcado.
+* **combobox** Usado quando um elemento representa uma caixa de combinação, que permite ao usuário selecionar entre diversas opções.
+* **grid** Usado com `ScrollView`, `VirtualizedList`, `FlatList` ou `SectionList` para representar uma grade. Adiciona os anúncios de entrada/saída da grade ao `GridView` do Android.
+*  **heading** Usado quando um elemento atua como cabeçalho para uma seção de conteúdo (por exemplo, o título de uma barra de navegação).
+* **img** Usado quando o elemento deve ser tratado como uma imagem. Pode ser combinado com um botão ou link, por exemplo.
+* **link** Usado quando o elemento deve ser tratado como um link.
+* **list** Usado para identificar uma lista de itens.
+* **menu** Usado quando o componente é um menu de opções.
+* **menubar** Usada quando um componente é um contêiner de vários menus.
+* **menuitem** Usado para representar um item dentro de um menu.
+* **none** Usado quando o elemento não tem função.
+* **presentation** Usado quando o elemento não tem função.
+* **progressbar** Usado para representar um componente que indica o progresso de uma tarefa.
+* **radio** Usado para representar um botão de opção.
+* **radiogroup** Usado para representar um grupo de botões de opção.
+* **scrollbar** Usada para representar uma barra de rolagem.
+* **searchbox** Usado quando o elemento do campo de texto também deve ser tratado como um campo de pesquisa.
+* **slider** Usado quando um elemento pode ser "ajustado" (por exemplo, um controle deslizante).
+* **spinbutton** Usado para representar um botão que abre uma lista de opções.
+* **summary** Usado quando um elemento pode ser usado para fornecer um resumo rápido das condições atuais no aplicativo quando ele é iniciado pela primeira vez.
+* **switch** Usado para representar um switch que pode ser ligado e desligado.
+* **tab** Usado para representar uma guia.
+* **tablist** Usado para representar uma lista de guias.
+* **timer** Usado para representar um timer.
+* **toolbar** Usada para representar uma barra de ferramentas (um contêiner de botões de ação ou componentes).
+
+## Ações de acessibilidade
+
+As ações de acessibilidade permitem que a tecnologia assistiva invoque programaticamente a(s) ação(ões) de um componente. Para apoiar ações de acessibilidade, um componente deve fazer duas coisas:
+
+* Defina a lista de ações suportadas por meio da propriedade `accessibilityActions`.
+* Implemente uma função `onAccessibilityAction` para lidar com solicitações de ação.
+
+A propriedade `accessibilityActions` deve conter uma lista de objetos de ação. Cada objeto de ação deve conter os seguintes campos:
+
+
+| NOME     |	TIPO   | OBRIGATÓRIO  |
+|----------|---------|--------------|
+| name	   | `string`| Sim          |
+| label    | `string`| Não          |
+
+As ações representam ações padrão, como clicar em um botão ou ajustar um controle deslizante, ou ações personalizadas específicas de um determinado componente, como excluir uma mensagem de email. O campo `name` é obrigatório para ações padrão e personalizadas, mas o `label` é opcional para ações padrão.
+
+Ao adicionar suporte para ações padrão, o `name` deve ser um dos seguintes:
+
+* `'magicTap'` - apenas iOS - Enquanto o foco do VoiceOver está no componente ou dentro dele, o usuário toca duas vezes com dois dedos.
+* `'escape'` - apenas iOS - Enquanto o foco do VoiceOver está no componente ou dentro dele, o usuário executou um gesto de esfregar com dois dedos (esquerda, direita, esquerda).
+* `'activate'` - Ativa o componente. Este deve realizar a mesma ação com ou sem tecnologia assistiva. Ativado quando um usuário de leitor de tela toca duas vezes no componente.
+* `'increment'` - Incrementa um componente ajustável. No iOS, o VoiceOver gera essa ação quando o componente tem a função de ‘ajustável’ e o usuário coloca o foco nele e desliza para cima. No Android, o TalkBack gera essa ação quando o usuário coloca o foco de acessibilidade no componente e pressiona o botão de aumentar volume.
+* `'decrement'` - Diminui um componente ajustável. No iOS, o VoiceOver gera essa ação quando o componente tem a função de ‘ajustável’ e o usuário coloca o foco nele e desliza para baixo. No Android, o TalkBack gera essa ação quando o usuário coloca o foco de acessibilidade no componente e pressiona o botão de diminuir volume.
+* `'longpress'` - somente Android - Esta ação é gerada quando o usuário coloca o foco de acessibilidade no componente, depois dá um toque duplo e mantém um dedo na tela. Este deve realizar a mesma ação com ou sem tecnologia assistiva.
+
+O campo `label` é opcional para ações padrão e muitas vezes não é utilizado por tecnologias assistivas. Para ações customizadas, é uma string localizada contendo uma descrição da ação a ser apresentada ao usuário.
+
+Para lidar com solicitações de ação, um componente deve implementar uma função `onAccessibilityAction`. O único argumento para esta função é um evento contendo o nome da ação a ser executada. O exemplo abaixo do RNTester mostra como criar um componente que define e trata diversas ações customizadas.
+
+```jsx
+<View
+  accessible={true}
+  accessibilityActions={[
+    {name: 'cut', label: 'cut'},
+    {name: 'copy', label: 'copy'},
+    {name: 'paste', label: 'paste'},
+  ]}
+  onAccessibilityAction={event => {
+    switch (event.nativeEvent.actionName) {
+      case 'cut':
+        Alert.alert('Alert', 'cut action success');
+        break;
+      case 'copy':
+        Alert.alert('Alert', 'copy action success');
+        break;
+      case 'paste':
+        Alert.alert('Alert', 'paste action success');
+        break;
+    }
+  }}
+/>
+```
+
+## Verificando se um leitor de tela está ativado
+A API `AccessibilityInfo` permite determinar se um leitor de tela está ativo ou não. Consulte a documentação do [`AccessibilityInfo`](https://reactnative.dev/docs/0.72/accessibilityinfo) para obter detalhes.
+
+## Envio de eventos de acessibilidade Android [Android]
+Às vezes é útil acionar um evento de acessibilidade em um componente de UI (ou seja, quando uma visualização personalizada aparece em uma tela ou define o foco de acessibilidade para uma visualização). O módulo UIManager nativo expõe um método 'sendAccessibilityEvent' para esta finalidade. São necessários dois argumentos: uma tag de visualização e um tipo de evento. Os tipos de eventos suportados são `typeWindowStateChanged`, `typeViewFocused` e `typeViewClicked`.
+
+```jsx
+import {Platform, UIManager, findNodeHandle} from 'react-native';
+
+if (Platform.OS === 'android') {
+  UIManager.sendAccessibilityEvent(
+    findNodeHandle(this),
+    UIManager.AccessibilityEventTypes.typeViewFocused,
+  );
+}
+```
+
+## Testando o suporte do TalkBack para Android
+Para ativar o TalkBack, acesse o aplicativo Configurações em seu dispositivo ou emulador Android. Toque em Acessibilidade e depois em TalkBack. Alterne a opção "Usar serviço" para ativá-lo ou desativá-lo.
+
+Os emuladores Android não têm o TalkBack instalado por padrão. Você pode instalar o TalkBack no seu emulador através da Google Play Store. Certifique-se de escolher um emulador com a Google Play Store instalada. Eles estão disponíveis no Android Studio.
+
+Você pode usar o atalho da tecla de volume para alternar o TalkBack. Para ativar o atalho da tecla de volume, vá para o aplicativo Configurações e, em seguida, Acessibilidade. Na parte superior, ative o atalho da tecla de volume.
+
+Para usar o atalho da tecla de volume, pressione ambas as teclas de volume por 3 segundos para iniciar uma ferramenta de acessibilidade.
+
+Além disso, se preferir, você pode alternar o TalkBack por meio da linha de comando com:
