@@ -43,7 +43,7 @@
     * [Rede](/docs/network.md)
     * [Segurança](/docs/security.md)
     ### Inclusion
-    * Accessibility
+    * [Acessibilidade](/docs/accessibility.md)
 ## Debugging
 * Debugging Basics
 * React Developer Tools
