@@ -415,7 +415,7 @@ if (Platform.OS === 'android') {
 }
 ```
 
-## Testando o suporte do TalkBack para Android
+## Testando o suporte do TalkBack [Android]
 Para ativar o TalkBack, acesse o aplicativo Configurações em seu dispositivo ou emulador Android. Toque em Acessibilidade e depois em TalkBack. Alterne a opção "Usar serviço" para ativá-lo ou desativá-lo.
 
 Os emuladores Android não têm o TalkBack instalado por padrão. Você pode instalar o TalkBack no seu emulador através da Google Play Store. Certifique-se de escolher um emulador com a Google Play Store instalada. Eles estão disponíveis no Android Studio.
@@ -425,3 +425,21 @@ Você pode usar o atalho da tecla de volume para alternar o TalkBack. Para ativa
 Para usar o atalho da tecla de volume, pressione ambas as teclas de volume por 3 segundos para iniciar uma ferramenta de acessibilidade.
 
 Além disso, se preferir, você pode alternar o TalkBack por meio da linha de comando com:
+
+```
+# desabilitado
+adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService
+
+# habilitado
+adb shell settings put secure enabled_accessibility_services com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService
+```
+
+## Testando o suporte do VoiceOver [iOS]
+Para ativar o VoiceOver em seu dispositivo iOS ou iPadOS, acesse o aplicativo Ajustes, toque em Geral e em Acessibilidade. Lá você encontrará muitas ferramentas disponíveis para as pessoas permitirem que seus dispositivos sejam mais utilizáveis, incluindo VoiceOver. Para ativar o VoiceOver, toque em VoiceOver em “Visão” e alterne o botão que aparece na parte superior.
+
+Na parte inferior das configurações de acessibilidade, há um “Atalho de acessibilidade”. Você pode usar isso para alternar o VoiceOver clicando três vezes no botão Início.
+
+O VoiceOver não está disponível por meio do simulador, mas você pode usar o Accessibility Inspector do Xcode para usar o macOS VoiceOver por meio de um aplicativo. Observe que é sempre melhor testar com um dispositivo, pois o VoiceOver do macOS pode resultar em experiências variadas.
+
+## Recursos adicionais
+* [Tornando aplicativos React Native acessíveis](https://engineering.fb.com/ios/making-react-native-apps-accessible/)
