@@ -45,7 +45,7 @@
     ### Inclusion
     * [Acessibilidade](/docs/accessibility.md)
 ## Debugging
-* Debugging Basics
+* [Noções básicas de depuração](/docs/debugging.md)
 * React Developer Tools
 * Native Debugging
 
