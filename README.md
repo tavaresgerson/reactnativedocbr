@@ -46,7 +46,7 @@
     * [Acessibilidade](/docs/accessibility.md)
 ## Debugging
 * [Noções básicas de depuração](/docs/debugging.md)
-* React Developer Tools
+* [Ferramentas de desenvolvedor React](/docs/react-devtools.md)
 * Native Debugging
 
 ## Testing
