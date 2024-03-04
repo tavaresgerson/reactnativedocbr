@@ -47,7 +47,7 @@
 ## Debugging
 * [Noções básicas de depuração](/docs/debugging.md)
 * [Ferramentas de desenvolvedor React](/docs/react-devtools.md)
-* Native Debugging
+* [Debug Nativo](/docs/native-debugging.md)
 
 ## Testing
 * Testing
