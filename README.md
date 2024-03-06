@@ -49,8 +49,8 @@
 * [Ferramentas de desenvolvedor React](/docs/react-devtools.md)
 * [Debug Nativo](/docs/native-debugging.md)
 
-## Testing
-* Testing
+## Testando
+* [Testando](/docs/testing-overview.md)
 
 ## Performance
 * Performance Overview
