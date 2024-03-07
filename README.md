@@ -53,7 +53,7 @@
 * [Testando](/docs/testing-overview.md)
 
 ## Performance
-* Performance Overview
+* [Visão geral do desempenho](/docs/performance.md)
 * Speeding up your Build phase
 * Speeding Up CI Builds
 * Optimizing Flatlist Configuration
