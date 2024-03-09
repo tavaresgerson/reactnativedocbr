@@ -55,8 +55,8 @@
 ## Performance
 * [Visão geral do desempenho](/docs/performance.md)
 * [Acelerando sua fase de construção](/docs/build-speed.md)
-* Speeding Up CI Builds
-* Optimizing Flatlist Configuration
+* [Acelerando as compilações de CI](/docs/speeding-ci-builds.md)
+* [Otimizando a configuração da Flatlist](/docs/optimizing-flatlist-configuration.md)
 * RAM Bundles and Inline Requires
 * Profiling
 * Profiling with Hermes
