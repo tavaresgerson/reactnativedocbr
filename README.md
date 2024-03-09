@@ -54,7 +54,7 @@
 
 ## Performance
 * [Visão geral do desempenho](/docs/performance.md)
-* Speeding up your Build phase
+* [Acelerando sua fase de construção](/docs/build-speed.md)
 * Speeding Up CI Builds
 * Optimizing Flatlist Configuration
 * RAM Bundles and Inline Requires
