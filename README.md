@@ -57,8 +57,8 @@
 * [Acelerando sua fase de construção](/docs/build-speed.md)
 * [Acelerando as compilações de CI](/docs/speeding-ci-builds.md)
 * [Otimizando a configuração da Flatlist](/docs/optimizing-flatlist-configuration.md)
-* RAM Bundles and Inline Requires
-* Profiling
+* [Pacotes de RAM e require inline](/docs/ram-bundles-inline-requires.md)
+* [Perfil](/docs/profiling.md)
 * Profiling with Hermes
 
 ## JavaScript Runtime
