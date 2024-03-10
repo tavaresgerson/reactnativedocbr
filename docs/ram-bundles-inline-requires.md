@@ -1,10 +1,10 @@
-# Pacotes de RAM e requisitos inline
+# Pacotes de RAM e require inline
 Se você tiver um aplicativo grande, considere o formato do pacote Random Access Modules (RAM) e o uso de requisitos in-line. Isso é útil para aplicativos que possuem um grande número de telas que talvez nunca sejam abertas durante o uso normal do aplicativo. Geralmente é útil para aplicativos que possuem grandes quantidades de código que não são necessários por um tempo após a inicialização. Por exemplo, o aplicativo inclui telas de perfil complicadas ou recursos menos usados, mas a maioria das sessões envolve apenas a visita à tela principal do aplicativo para atualizações. Podemos otimizar o carregamento do pacote usando o formato RAM e exigindo esses recursos e telas inline (quando são realmente usados).
 
 ## Carregando JavaScript
 Antes que o react-native possa executar o código JS, esse código deve ser carregado na memória e analisado. Com um pacote padrão, se você carregar um pacote de 50 MB, todos os 50 MB deverão ser carregados e analisados antes que qualquer um deles possa ser executado. A otimização por trás dos pacotes de RAM é que você pode carregar apenas a parte dos 50 MB que realmente precisa na inicialização e carregar progressivamente mais do pacote conforme essas seções forem necessárias.
 
-## Requer Inline
+## Require Inline
 Inline exige atrasar a solicitação de um módulo ou arquivo até que esse arquivo seja realmente necessário. Um exemplo básico seria assim:
 
 ```jsx
