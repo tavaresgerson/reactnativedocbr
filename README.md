@@ -59,7 +59,7 @@
 * [Otimizando a configuração da Flatlist](/docs/optimizing-flatlist-configuration.md)
 * [Pacotes de RAM e require inline](/docs/ram-bundles-inline-requires.md)
 * [Perfil](/docs/profiling.md)
-* Profiling with Hermes
+* [Perfis com Hermes](/docs/profile-hermes.md)
 
 ## JavaScript Runtime
 * JavaScript Environment
