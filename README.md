@@ -67,7 +67,7 @@
 * [Usando o Hermes](/docs/using-hermes.md)
 
 ## Native Modules
-* Native Modules Intro
+* [Introdução aos módulos nativos](/docs/native-modules-intro.md)
 * Android Native Modules
 * iOS Native Modules
 * Native Modules NPM Package Setup
