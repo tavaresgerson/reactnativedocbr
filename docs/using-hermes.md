@@ -141,5 +141,23 @@ yarn ios
 ## Voltando para JavaScriptCore
 React Native também oferece suporte ao uso de JavaScriptCore como mecanismo JavaScript. Siga estas instruções para cancelar o Hermes.
 
-Android
-Edite seu arquivo android/gradle.properties e mude hermesEnabled de volta para false:
+### Android
+Edite seu arquivo `android/gradle.properties` e mude `hermesEnabled` de volta para `false`:
+```
+# Use esta propriedade para ativar ou desativar o mecanismo Hermes JS.
+# Se definido como false, você usará JSC.
+hermesEnabled=false
+```
+
+### iOS
+Edite seu arquivo `ios/Podfile` e faça a alteração ilustrada abaixo:
+```
+   use_react_native!(
+     :path => config[:reactNativePath],
+     # Hermes agora está habilitado por padrão. Desative definindo este sinalizador como false.
+     # As próximas versões do React Native podem contar com get_default_flags(), mas
+     # deixamos isso explícito aqui para auxiliar no processo de atualização do React Native.
+-    :hermes_enabled => flags[:hermes_enabled],
++    :hermes_enabled => false,
+   )
+```
