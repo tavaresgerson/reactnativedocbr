@@ -62,9 +62,9 @@
 * [Perfis com Hermes](/docs/profile-hermes.md)
 
 ## JavaScript Runtime
-* JavaScript Environment
-* Timers
-* Using Hermes
+* [Ambiente JavaScript](/docs/javascript-environment.md)
+* [Timers](/docs/timers.md)
+* [Usando o Hermes](/docs/using-hermes.md)
 
 ## Native Modules
 * Native Modules Intro
