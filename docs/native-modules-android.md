@@ -6,7 +6,7 @@
 Bem-vindo aos Módulos Nativos para Android. Comece lendo a introdução aos módulos nativos para obter uma introdução ao que são os módulos nativos.
 
 ## Crie um módulo nativo de calendário
-No guia a seguir você criará um módulo nativo, CalendarModule, que permitirá acessar APIs de calendário do Android a partir de JavaScript. Ao final, você poderá chamar CalendarModule.createCalendarEvent('Dinner Party', 'My House'); do JavaScript, invocando um método Java/Kotlin que cria um evento de calendário.
+No guia a seguir você criará um módulo nativo, CalendarModule, que permitirá acessar APIs de calendário do Android a partir de JavaScript. Ao final, você poderá chamar `CalendarModule.createCalendarEvent('Dinner Party', 'My House');` do JavaScript, invocando um método Java/Kotlin que cria um evento de calendário.
 
 ### Configurar
 Para começar, abra o projeto Android em seu aplicativo React Native no Android Studio. Você pode encontrar seu projeto Android aqui em um aplicativo React Native:
@@ -663,3 +663,340 @@ Mensagem de erro no aplicativo React Native quando a promessa é rejeitada:
 
 ![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/99069c93-a869-4b6e-bb50-b101c0c029ad)
 _Imagem da mensagem de erro_
+
+### Enviando eventos para JavaScript
+Módulos nativos podem sinalizar eventos para JavaScript sem serem invocados diretamente. Por exemplo, você pode sinalizar para o JavaScript um lembrete de que um evento de calendário do aplicativo de calendário nativo do Android ocorrerá em breve. A maneira mais fácil de fazer isso é usar o `RCTDeviceEventEmitter` que pode ser obtido no `ReactContext` como no trecho de código abaixo.
+
+```java
+// Java
+...
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
+...
+private void sendEvent(ReactContext reactContext,
+                      String eventName,
+                      @Nullable WritableMap params) {
+ reactContext
+     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+     .emit(eventName, params);
+}
+
+private int listenerCount = 0;
+
+@ReactMethod
+public void addListener(String eventName) {
+  if (listenerCount == 0) {
+    // Configure quaisquer ouvintes upstream ou tarefas em segundo plano conforme necessário
+  }
+
+  listenerCount += 1;
+}
+
+@ReactMethod
+public void removeListeners(Integer count) {
+  listenerCount -= count;
+  if (listenerCount == 0) {
+    // Remova ouvintes upstream, interrompa tarefas desnecessárias em segundo plano
+  }
+}
+...
+WritableMap params = Arguments.createMap();
+params.putString("eventProperty", "someValue");
+...
+sendEvent(reactContext, "EventReminder", params);
+```
+
+```kt
+// Kotlin
+...
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.modules.core.DeviceEventManagerModule
+...
+
+private fun sendEvent(reactContext: ReactContext, eventName: String, params: WritableMap?) {
+    reactContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+      .emit(eventName, params)
+}
+
+private var listenerCount = 0
+
+@ReactMethod
+fun addListener(eventName: String) {
+  if (listenerCount == 0) {
+    // Configure quaisquer ouvintes upstream ou tarefas em segundo plano conforme necessário
+  }
+
+  listenerCount += 1
+}
+
+@ReactMethod
+fun removeListeners(count: Int) {
+  listenerCount -= count
+  if (listenerCount == 0) {
+    // Remova ouvintes upstream, interrompa tarefas desnecessárias em segundo plano
+  }
+}
+...
+val params = Arguments.createMap().apply {
+    putString("eventProperty", "someValue")
+}
+...
+sendEvent(reactContext, "EventReminder", params)
+```
+
+Os módulos JavaScript podem então se registrar para receber eventos por `addListener` na classe [NativeEventEmitter](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/EventEmitter/NativeEventEmitter.js).
+
+```tsx
+import {NativeEventEmitter, NativeModules} from 'react-native';
+...
+useEffect(() => {
+    const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
+    let eventListener = eventEmitter.addListener('EventReminder', event => {
+      console.log(event.eventProperty) // "algumValor"
+    });
+
+    // Remove o ouvinte depois de desmontado
+    return () => {
+      eventListener.remove();
+    };
+  }, []);
+```
+
+## Obtendo o resultado da atividade de `startActivityForResult`
+Você precisará ouvir `onActivityResult` se quiser obter resultados de uma atividade iniciada com `startActivityForResult`. Para fazer isso, você deve estender `BaseActivityEventListener` ou implementar `ActivityEventListener`. O primeiro é preferido porque é mais resiliente às alterações da API. Então, você precisa registrar o ouvinte no construtor do módulo assim:
+
+```java
+reactContext.addActivityEventListener(mActivityResultListener);
+```
+
+Agora você pode ouvir `onActivityResult` implementando o seguinte método:
+
+```java
+// Java
+@Override
+public void onActivityResult(
+ final Activity activity,
+ final int requestCode,
+ final int resultCode,
+ final Intent intent) {
+ // Sua lógica aqui
+}
+```
+
+```kt
+override fun onActivityResult(
+    activity: Activity?,
+    requestCode: Int,
+    resultCode: Int,
+    intent: Intent?
+) {
+    // Sua lógica aqui
+}
+```
+
+Vamos implementar um seletor de imagens básico para demonstrar isso. O seletor de imagens irá expor o método `pickImage` no JavaScript, que retornará o caminho da imagem quando chamado.
+
+```java
+// Java
+
+public class ImagePickerModule extends ReactContextBaseJavaModule {
+
+  private static final int IMAGE_PICKER_REQUEST = 1;
+  private static final String E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST";
+  private static final String E_PICKER_CANCELLED = "E_PICKER_CANCELLED";
+  private static final String E_FAILED_TO_SHOW_PICKER = "E_FAILED_TO_SHOW_PICKER";
+  private static final String E_NO_IMAGE_DATA_FOUND = "E_NO_IMAGE_DATA_FOUND";
+
+  private Promise mPickerPromise;
+
+  private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+      if (requestCode == IMAGE_PICKER_REQUEST) {
+        if (mPickerPromise != null) {
+          if (resultCode == Activity.RESULT_CANCELED) {
+            mPickerPromise.reject(E_PICKER_CANCELLED, "Image picker was cancelled");
+          } else if (resultCode == Activity.RESULT_OK) {
+            Uri uri = intent.getData();
+
+            if (uri == null) {
+              mPickerPromise.reject(E_NO_IMAGE_DATA_FOUND, "No image data found");
+            } else {
+              mPickerPromise.resolve(uri.toString());
+            }
+          }
+
+          mPickerPromise = null;
+        }
+      }
+    }
+  };
+
+  ImagePickerModule(ReactApplicationContext reactContext) {
+    super(reactContext);
+
+    // Adicione o ouvinte para `onActivityResult`
+    reactContext.addActivityEventListener(mActivityEventListener);
+  }
+
+  @Override
+  public String getName() {
+    return "ImagePickerModule";
+  }
+
+  @ReactMethod
+  public void pickImage(final Promise promise) {
+    Activity currentActivity = getCurrentActivity();
+
+    if (currentActivity == null) {
+      promise.reject(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist");
+      return;
+    }
+
+    // Armazene a promessa de resolver/rejeitar quando o seletor retornar dados
+    mPickerPromise = promise;
+
+    try {
+      final Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+
+      galleryIntent.setType("image/*");
+
+      final Intent chooserIntent = Intent.createChooser(galleryIntent, "Pick an image");
+
+      currentActivity.startActivityForResult(chooserIntent, IMAGE_PICKER_REQUEST);
+    } catch (Exception e) {
+      mPickerPromise.reject(E_FAILED_TO_SHOW_PICKER, e);
+      mPickerPromise = null;
+    }
+  }
+}
+```
+
+```kt
+// Kotlin
+
+class ImagePickerModule(reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext) {
+
+    private var pickerPromise: Promise? = null
+
+    private val activityEventListener =
+        object : BaseActivityEventListener() {
+            override fun onActivityResult(
+                activity: Activity?,
+                requestCode: Int,
+                resultCode: Int,
+                intent: Intent?
+            ) {
+                if (requestCode == IMAGE_PICKER_REQUEST) {
+                    pickerPromise?.let { promise ->
+                        when (resultCode) {
+                            Activity.RESULT_CANCELED ->
+                                promise.reject(E_PICKER_CANCELLED, "Image picker was cancelled")
+                            Activity.RESULT_OK -> {
+                                val uri = intent?.data
+
+                                uri?.let { promise.resolve(uri.toString())}
+                                    ?: promise.reject(E_NO_IMAGE_DATA_FOUND, "No image data found")
+                            }
+                        }
+
+                        pickerPromise = null
+                    }
+                }
+            }
+        }
+
+    init {
+        reactContext.addActivityEventListener(activityEventListener)
+    }
+
+    override fun getName() = "ImagePickerModule"
+
+    @ReactMethod
+    fun pickImage(promise: Promise) {
+        val activity = currentActivity
+
+        if (activity == null) {
+            promise.reject(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist")
+            return
+        }
+
+        pickerPromise = promise
+
+        try {
+            val galleryIntent = Intent(Intent.ACTION_PICK).apply { type = "image\/*" }
+
+            val chooserIntent = Intent.createChooser(galleryIntent, "Pick an image")
+
+            activity.startActivityForResult(chooserIntent, IMAGE_PICKER_REQUEST)
+        } catch (t: Throwable) {
+            pickerPromise?.reject(E_FAILED_TO_SHOW_PICKER, t)
+            pickerPromise = null
+        }
+    }
+
+    companion object {
+        const val IMAGE_PICKER_REQUEST = 1
+        const val E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST"
+        const val E_PICKER_CANCELLED = "E_PICKER_CANCELLED"
+        const val E_FAILED_TO_SHOW_PICKER = "E_FAILED_TO_SHOW_PICKER"
+        const val E_NO_IMAGE_DATA_FOUND = "E_NO_IMAGE_DATA_FOUND"
+    }
+}
+```
+
+## Ouvindo eventos do ciclo de vida
+Ouvir os eventos LifeCycle da atividade, como `onResume`, `onPause` etc., é muito semelhante a como `ActivityEventListener` foi implementado. O módulo deve implementar `LifecycleEventListener`. Então, você precisa registrar um ouvinte no construtor do módulo como:
+
+```java
+// Java
+reactContext.addLifecycleEventListener(this);
+```
+
+```kt
+// Kotlin
+reactContext.addLifecycleEventListener(this)
+```
+
+Agora você pode ouvir os eventos LifeCycle da atividade implementando os seguintes métodos:
+
+```java
+// Java
+
+@Override
+public void onHostResume() {
+   // Activity `onResume`
+}
+@Override
+public void onHostPause() {
+   // Activity `onPause`
+}
+@Override
+public void onHostDestroy() {
+   // Activity `onDestroy`
+}
+```
+
+```kt
+// Kotlin
+
+override fun onHostResume() {
+    // Activity `onResume`
+}
+
+override fun onHostPause() {
+    // Activity `onPause`
+}
+
+override fun onHostDestroy() {
+    // Activity `onDestroy`
+}
+
+## Threading
+Até o momento, no Android, todos os métodos assíncronos do módulo nativo são executados em um thread. Os módulos nativos não devem ter nenhuma suposição sobre em qual thread estão sendo chamados, pois a atribuição atual está sujeita a alterações no futuro. Se uma chamada de bloqueio for necessária, o trabalho pesado deverá ser despachado para um thread de trabalho gerenciado internamente e quaisquer retornos de chamada distribuídos a partir daí.
+```
