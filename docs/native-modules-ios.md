@@ -285,3 +285,285 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)title
                 myCallback:(RCTResponseSenderBlock)callback)
 ```
 
+Você pode então invocar o retorno de chamada em sua função nativa, fornecendo qualquer resultado que deseja passar para JavaScript em um array. Observe que `RCTResponseSenderBlock` aceita apenas um argumento - uma matriz de parâmetros a serem passados para o retorno de chamada JavaScript. Abaixo você retornará o ID de um evento criado em uma chamada anterior.
+
+> É importante destacar que o retorno de chamada não é invocado imediatamente após a conclusão da função nativa – lembre-se que a comunicação é assíncrona.
+
+```m
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)title location:(NSString *)location callback: (RCTResponseSenderBlock)callback)
+{
+ NSInteger eventId = ...
+ callback(@[@(eventId)]);
+
+ RCTLogInfo(@"Pretending to create an event %@ at %@", title, location);
+}
+```
+
+Este método pode então ser acessado em JavaScript usando o seguinte:
+
+```tsx
+const onSubmit = () => {
+  CalendarModule.createCalendarEvent(
+    'Party',
+    '04-12-2020',
+    eventId => {
+      console.log(`Created a new event with id ${eventId}`);
+    },
+  );
+};
+```
+
+Um módulo nativo deve invocar seu retorno de chamada apenas uma vez. No entanto, ele pode armazenar o retorno de chamada e invocá-lo mais tarde. Esse padrão é frequentemente usado para agrupar APIs iOS que exigem delegados — consulte [RCTAlertManager](https://github.com/facebook/react-native/blob/main/packages/react-native/React/CoreModules/RCTAlertManager.mm) para obter um exemplo. Se o retorno de chamada nunca for invocado, alguma memória será vazada.
+
+Existem duas abordagens para tratamento de erros com retornos de chamada. A primeira é seguir a convenção do Node e tratar o primeiro argumento passado para o array de retorno de chamada como um objeto de erro.
+
+```
+RCT_EXPORT_METHOD(createCalendarEventCallback:(NSString *)title location:(NSString *)location callback: (RCTResponseSenderBlock)callback)
+{
+  NSNumber *eventId = [NSNumber numberWithInt:123];
+  callback(@[[NSNull null], eventId]);
+}
+```
+
+Em JavaScript, você pode verificar o primeiro argumento para ver se um erro foi transmitido:
+
+```tsx
+const onPress = () => {
+  CalendarModule.createCalendarEventCallback(
+    'testName',
+    'testLocation',
+    (error, eventId) => {
+      if (error) {
+        console.error(`Error found! ${error}`);
+      }
+      console.log(`event id ${eventId} returned`);
+    },
+  );
+};
+```
+
+Outra opção é usar dois retornos de chamada separados: onFailure e onSuccess.
+
+```
+RCT_EXPORT_METHOD(createCalendarEventCallback:(NSString *)title
+                  location:(NSString *)location
+                  errorCallback: (RCTResponseSenderBlock)errorCallback
+                  successCallback: (RCTResponseSenderBlock)successCallback)
+{
+  @try {
+    NSNumber *eventId = [NSNumber numberWithInt:123];
+    successCallback(@[eventId]);
+  }
+
+  @catch ( NSException *e ) {
+    errorCallback(@[e]);
+  }
+}
+```
+
+Então, em JavaScript, você pode adicionar um retorno de chamada separado para respostas de erro e sucesso:
+
+```tsx
+const onPress = () => {
+  CalendarModule.createCalendarEventCallback(
+    'testName',
+    'testLocation',
+    error => {
+      console.error(`Error found! ${error}`);
+    },
+    eventId => {
+      console.log(`event id ${eventId} returned`);
+    },
+  );
+};
+```
+
+Se você deseja passar objetos semelhantes a erros para JavaScript, use `RCTMakeError` de `RCTUtils.h`. No momento, isso apenas passa um dicionário em formato de erro para JavaScript, mas o React Native visa gerar automaticamente objetos de erro JavaScript reais no futuro. Você também pode fornecer um argumento `RCTResponseErrorBlock`, que é usado para retornos de chamada de erro e aceita um `NSError \* object`. Observe que este tipo de argumento não será compatível com TurboModules.
+
+## Promises
+Módulos nativos também podem cumprir uma promessa, o que pode simplificar seu JavaScript, especialmente ao usar a sintaxe `async/await` do ES2016. Quando o último parâmetro de um método de módulo nativo é `RCTPromiseResolveBlock` e `RCTPromiseRejectBlock`, seu método JS correspondente retornará um objeto JS Promise.
+
+Refatorar o código acima para usar uma promessa em vez de retornos de chamada é assim:
+
+```
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)title
+                 location:(NSString *)location
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+ NSInteger eventId = createCalendarEvent();
+ if (eventId) {
+    resolve(@(eventId));
+  } else {
+    reject(@"event_failure", @"no event id returned", nil);
+  }
+}
+```
+
+A contraparte JavaScript deste método retorna uma promessa. Isso significa que você pode usar a palavra-chave `await` dentro de uma função assíncrona para chamá-la e aguardar seu resultado:
+
+```tsx
+const onSubmit = async () => {
+  try {
+    const eventId = await CalendarModule.createCalendarEvent(
+      'Party',
+      'my house',
+    );
+    console.log(`Created a new event with id ${eventId}`);
+  } catch (e) {
+    console.error(e);
+  }
+};
+```
+
+## Enviando eventos para JavaScript
+Módulos nativos podem sinalizar eventos para o JavaScript sem serem invocados diretamente. Por exemplo, você pode sinalizar para o JavaScript um lembrete de que um evento de calendário do aplicativo de calendário nativo do iOS ocorrerá em breve. A maneira preferida de fazer isso é subclassificar `RCTEventEmitter`, implementar `SupportedEvents` e chamar `sendEventWithName`:
+
+Atualize sua classe de cabeçalho para importar `RCTEventEmitter` e subclasse `RCTEventEmitter`:
+
+```h
+//  CalendarModule.h
+
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
+
+@interface CalendarModule : RCTEventEmitter <RCTBridgeModule>
+@end
+```
+
+O código JavaScript pode assinar esses eventos criando uma nova instância NativeEventEmitter em torno do seu módulo.
+
+Você receberá um aviso se gastar recursos desnecessariamente emitindo um evento enquanto não houver ouvintes. Para evitar isso e otimizar a carga de trabalho do seu módulo (por exemplo, cancelando a assinatura de notificações upstream ou pausando tarefas em segundo plano), você pode substituir `startObserving` e `stopObserving` em sua subclasse `RCTEventEmitter`.
+
+```m
+@implementation CalendarManager
+{
+  bool hasListeners;
+}
+
+// Será chamado quando o primeiro ouvinte deste módulo for adicionado.
+-(void)startObserving {
+    hasListeners = YES;
+    // Configure quaisquer ouvintes upstream ou tarefas em segundo plano conforme necessário
+}
+
+// Será chamado quando o último ouvinte deste módulo for removido ou no dealloc.
+-(void)stopObserving {
+    hasListeners = NO;
+    // Remove upstream listeners, stop unnecessary background tasks
+}
+
+- (void)calendarEventReminderReceived:(NSNotification *)notification
+{
+  NSString *eventName = notification.userInfo[@"name"];
+  if (hasListeners) {//Só envia eventos se alguém estiver ouvindo
+    [self sendEventWithName:@"EventReminder" body:@{@"name": eventName}];
+  }
+}
+```
+
+## Threading
+A menos que o módulo nativo forneça sua própria fila de métodos, ele não deve fazer nenhuma suposição sobre em qual thread está sendo chamado. Atualmente, se um módulo nativo não fornecer uma fila de métodos, o React Native criará uma fila GCD separada para ele e invocará seus métodos lá. Observe que este é um detalhe de implementação e pode mudar. Se você quiser fornecer explicitamente uma fila de métodos para um módulo nativo, substitua o método `(dispatch_queue_t) methodQueue` no módulo nativo. Por exemplo, se for necessário usar uma API iOS somente de thread principal, ele deverá especificar isso por meio de:
+
+```m
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_get_main_queue();
+}
+```
+
+Da mesma forma, se uma operação demorar muito para ser concluída, o módulo nativo poderá especificar sua própria fila para executar as operações. Novamente, atualmente o React Native fornecerá uma fila de métodos separada para seu módulo nativo, mas este é um detalhe de implementação no qual você não deve confiar. Se você não fornecer sua própria fila de métodos, no futuro, as operações de longa execução do seu módulo nativo poderão acabar bloqueando a execução de chamadas assíncronas em outros módulos nativos não relacionados. O módulo `RCTAsyncLocalStorage` aqui, por exemplo, cria sua própria fila para que a fila React não seja bloqueada aguardando um acesso potencialmente lento ao disco.
+
+```m
+- (dispatch_queue_t)methodQueue
+{
+ return dispatch_queue_create("com.facebook.React.AsyncLocalStorageQueue", DISPATCH_QUEUE_SERIAL);
+}
+```
+
+O `methodQueue` especificado será compartilhado por todos os métodos do seu módulo. Se apenas um dos seus métodos for de longa duração (ou precisar ser executado em uma fila diferente dos outros por algum motivo), você poderá usar `dispatch_async` dentro do método para executar o código desse método específico em outra fila, sem afetar os outros:
+
+```m
+RCT_EXPORT_METHOD(doSomethingExpensive:(NSString *)param callback:(RCTResponseSenderBlock)callback)
+{
+ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+   // Call long-running code on background thread
+   ...
+   // You can invoke callback from any thread/queue
+   callback(@[...]);
+ });
+}
+```
+
+> **Compartilhando filas de despacho entre módulos**
+> 
+> O método `methodQueue` será chamado uma vez quando o módulo for inicializado e então retido pelo React Native, portanto não há necessidade de manter uma referência à fila, a menos que você queira usá-la em seu módulo. No entanto, se desejar compartilhar a mesma fila entre vários módulos, você precisará garantir que retém e retorna a mesma instância de fila para cada um deles.
+
+### Injeção de dependência
+O React Native criará e inicializará automaticamente quaisquer módulos nativos registrados. No entanto, você pode desejar criar e inicializar suas próprias instâncias de módulo para, por exemplo, injetar dependências.
+
+Você pode fazer isso criando uma classe que implemente o protocolo `RCTBridgeDelegate`, inicializando um `RCTBridge` com o delegado como argumento e inicializando um `RCTRootView` com a ponte inicializada.
+
+```
+id<RCTBridgeDelegate> moduleInitialiser = [[classThatImplementsRCTBridgeDelegate alloc] init];
+
+RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:moduleInitialiser launchOptions:nil];
+
+RCTRootView *rootView = [[RCTRootView alloc]
+                        initWithBridge:bridge
+                            moduleName:kModuleName
+                     initialProperties:nil];
+```
+
+### Exportando Swift
+Swift não tem suporte para macros, então expor módulos nativos e seus métodos ao JavaScript dentro do React Native requer um pouco mais de configuração. No entanto, funciona relativamente da mesma forma. Digamos que você tenha o mesmo `CalendarModule`, mas como uma classe Swift:
+
+```swift
+// CalendarManager.swift
+
+@objc(CalendarManager)
+class CalendarManager: NSObject {
+
+ @objc(addEvent:location:date:)
+ func addEvent(_ name: String, location: String, date: NSNumber) -> Void {
+   // A data está pronta para uso!
+ }
+
+ @objc
+ func constantsToExport() -> [String: Any]! {
+   return ["someKey": "someValue"]
+ }
+
+}
+```
+
+> É importante usar os modificadores `@objc` para garantir que a classe e as funções sejam exportadas corretamente para o tempo de execução do Objective-C.
+
+Em seguida, crie um arquivo de implementação privado que registrará as informações necessárias com React Native:
+
+```m
+// CalendarManagerBridge.m
+#import <React/RCTBridgeModule.h>
+
+@interface RCT_EXTERN_MODULE(CalendarManager, NSObject)
+
+RCT_EXTERN_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(nonnull NSNumber *)date)
+
+@end
+```
+
+Para aqueles que são novos em Swift e Objective-C, sempre que [misturar as duas linguagens](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) em um projeto iOS, você também precisará de um arquivo de ponte adicional, conhecido como cabeçalho de ponte, para expor os arquivos de Objective-C ao Swift. O Xcode se oferecerá para criar este arquivo de cabeçalho para você se você adicionar seu arquivo Swift ao seu aplicativo por meio da opção de menu `File > New File`. Você precisará importar `RCTBridgeModule.h` neste arquivo de cabeçalho.
+
+```h
+// CalendarManager-Bridging-Header.h
+#import <React/RCTBridgeModule.h>
+```
+
+Você também pode usar `RCT_EXTERN_REMAP_MODULE` e `_RCT_EXTERN_REMAP_METHOD` para alterar o nome JavaScript do módulo ou métodos que você está exportando. Para obter mais informações, consulte [RCTBridgeModule](https://github.com/facebook/react-native/blob/main/packages/react-native/React/Base/RCTBridgeModule.h).
+
+> Importante ao criar módulos de terceiros: Bibliotecas estáticas com Swift são suportadas apenas no Xcode 9 e posterior. Para que o projeto Xcode seja compilado quando você usa Swift na biblioteca estática do iOS incluída no módulo, o projeto principal do seu aplicativo deve conter o código Swift e um cabeçalho de ponte em si. Se o projeto do seu aplicativo não contiver nenhum código Swift, uma solução alternativa poderá ser um único arquivo `.swift` vazio e um cabeçalho de ponte vazio.
+
+## Nomes de métodos reservados
+
+### invalidate()
+Os módulos nativos podem estar em conformidade com o protocolo [RCTInvalidating](https://github.com/facebook/react-native/blob/main/packages/react-native/React/Base/RCTInvalidating.h) no iOS implementando o método `invalidate()`. Este método [pode ser invocado](https://github.com/facebook/react-native/blob/0.62-stable/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm#L456) quando a ponte nativa é invalidada (ou seja: no recarregamento do devmode). Use este mecanismo conforme necessário para fazer a limpeza necessária para seu módulo nativo.
