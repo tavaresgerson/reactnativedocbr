@@ -69,7 +69,7 @@
 ## Native Modules
 * [Introdução aos módulos nativos](/docs/native-modules-intro.md)
 * [Módulos nativos do Android](/docs/native-modules-android.md)
-* iOS Native Modules
+* [Módulos nativos iOS](/docs/native-modules-ios.md)
 * Native Modules NPM Package Setup
 
 ## Native Components
