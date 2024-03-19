@@ -265,4 +265,308 @@ MyCustomView.propTypes = {
 const RCTMyCustomView = requireNativeComponent(`RCTMyCustomView`);
 ```
 
-## Integration with an Android Fragment example
+## Exemplo de integração com um fragmento Android
+Para integrar elementos de UI nativa existentes ao seu aplicativo React Native, pode ser necessário usar Android Fragments para fornecer um controle mais granular sobre seu componente nativo do que retornar uma `View` do seu `ViewManager`. Você precisará disso se quiser adicionar lógica personalizada vinculada à sua visualização com a ajuda de [métodos de ciclo de vida](https://developer.android.com/guide/fragments/lifecycle), como `onViewCreated`, `onPause`, `onResume`. As etapas a seguir mostrarão como fazer isso:
+
+### 1. Crie um exemplo de visualização personalizada
+Primeiro, vamos criar uma classe `CustomView` que estende `FrameLayout` (o conteúdo desta visualização pode ser qualquer visualização que você gostaria de renderizar)
+
+```java
+// CustomView.java
+
+// substitua pelo seu pacote
+package com.mypackage;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+public class CustomView extends FrameLayout {
+  public CustomView(@NonNull Context context) {
+    super(context);
+    // definir preenchimento e cor de fundo
+    this.setPadding(16,16,16,16);
+    this.setBackgroundColor(Color.parseColor("#5FD3F3"));
+
+    // adicionar visualização de texto padrão
+    TextView text = new TextView(context);
+    text.setText("Welcome to Android Fragments with React Native.");
+    this.addView(text);
+  }
+}
+```
+
+```kt
+// Kotlin
+
+// substitua pelo seu pacote
+package com.mypackage
+
+import android.content.Context
+import android.graphics.Color
+import android.widget.FrameLayout
+import android.widget.TextView
+
+class CustomView(context: Context) : FrameLayout(context) {
+  init {
+    // definir preenchimento e cor de fundo
+    setPadding(16,16,16,16)
+    setBackgroundColor(Color.parseColor("#5FD3F3"))
+
+    // adicionar visualização de texto padrão
+    addView(TextView(context).apply {
+      text = "Welcome to Android Fragments with React Native."
+    })
+  }
+}
+```
+
+### 2. Crie um fragmento
+
+```kt
+// MyFragment.kt
+
+// substitua pelo seu pacote
+package com.mypackage
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+
+// substitua pela importação da sua visualização
+import com.mypackage.CustomView
+
+class MyFragment : Fragment() {
+  private lateinit var customView: CustomView
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    super.onCreateView(inflater, container, savedInstanceState)
+    customView = CustomView(requireNotNull(context))
+    return customView // este CustomView pode ser qualquer visualização que você deseja renderizar
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    // faça qualquer lógica que deva acontecer em um método `onCreate`, por exemplo:
+    // customView.onCreate(savedInstanceState);
+  }
+
+  override fun onPause() {
+    super.onPause()
+    // faça qualquer lógica que deveria acontecer em um método `onPause`
+    // por exemplo: customView.onPause();
+  }
+
+  override fun onResume() {
+    super.onResume()
+    // faz qualquer lógica que deveria acontecer em um método `onResume`
+    // por exemplo: customView.onResume();
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    // faça qualquer lógica que deveria acontecer em um método `onDestroy`
+    // por exemplo: customView.onDestroy();
+  }
+}
+```
+
+### 3. Crie a subclasse `ViewManager`
+
+```kt
+// MyViewManager.kt
+
+// substitua pelo seu pacote
+package com.mypackage
+
+import android.view.Choreographer
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.fragment.app.FragmentActivity
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.uimanager.ThemedReactContext
+import com.facebook.react.uimanager.ViewGroupManager
+import com.facebook.react.uimanager.annotations.ReactPropGroup
+
+class MyViewManager(
+    private val reactContext: ReactApplicationContext
+) : ViewGroupManager<FrameLayout>() {
+  private var propWidth: Int? = null
+  private var propHeight: Int? = null
+
+  override fun getName() = REACT_CLASS
+
+  /**
+   * Retorne um FrameLayout que posteriormente conterá o Fragment
+   */
+  override fun createViewInstance(reactContext: ThemedReactContext) =
+      FrameLayout(reactContext)
+
+  /**
+   * Mapeie o comando "create" para um número inteiro
+   */
+  override fun getCommandsMap() = mapOf("create" to COMMAND_CREATE)
+
+  /**
+   * Lidar com o comando "create" (chamado de JS) e chamar o método createFragment
+   */
+  override fun receiveCommand(
+      root: FrameLayout,
+      commandId: String,
+      args: ReadableArray?
+  ) {
+    super.receiveCommand(root, commandId, args)
+    val reactNativeViewId = requireNotNull(args).getInt(0)
+
+    when (commandId.toInt()) {
+      COMMAND_CREATE -> createFragment(root, reactNativeViewId)
+    }
+  }
+
+  @ReactPropGroup(names = ["width", "height"], customType = "Style")
+  fun setStyle(view: FrameLayout, index: Int, value: Int) {
+    if (index == 0) propWidth = value
+    if (index == 1) propHeight = value
+  }
+
+  /**
+   * Substitua sua visualização React Native por um fragmento personalizado
+   */
+  fun createFragment(root: FrameLayout, reactNativeViewId: Int) {
+    val parentView = root.findViewById<ViewGroup>(reactNativeViewId)
+    setupLayout(parentView)
+
+    val myFragment = MyFragment()
+    val activity = reactContext.currentActivity as FragmentActivity
+    activity.supportFragmentManager
+        .beginTransaction()
+        .replace(reactNativeViewId, myFragment, reactNativeViewId.toString())
+        .commit()
+  }
+
+  fun setupLayout(view: View) {
+    Choreographer.getInstance().postFrameCallback(object: Choreographer.FrameCallback {
+      override fun doFrame(frameTimeNanos: Long) {
+        manuallyLayoutChildren(view)
+        view.viewTreeObserver.dispatchOnGlobalLayout()
+        Choreographer.getInstance().postFrameCallback(this)
+      }
+    })
+  }
+
+  /**
+   * Disponha todas as crianças corretamente
+   */
+  private fun manuallyLayoutChildren(view: View) {
+    // propWidth e propHeight provenientes de adereços nativos de do react
+    val width = requireNotNull(propWidth)
+    val height = requireNotNull(propHeight)
+
+    view.measure(
+        View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+        View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
+
+    view.layout(0, 0, width, height)
+  }
+
+  companion object {
+    private const val REACT_CLASS = "MyViewManager"
+    private const val COMMAND_CREATE = 1
+  }
+}
+```
+
+### 4. Cadastre o `ViewManager`
+
+```kt
+// MyPackage.kt
+
+// substitua pelo seu pacote
+package com.mypackage
+
+import com.facebook.react.ReactPackage
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.uimanager.ViewManager
+
+class MyPackage : ReactPackage {
+  ...
+  override fun createViewManagers(
+      reactContext: ReactApplicationContext
+  ) = listOf(MyViewManager(reactContext))
+}
+```
+
+### 5. Registre o `Package`
+
+```kt
+// MainApplication.kt
+
+override fun getPackages() = PackageList(this).packages.apply {
+  add(MyPackage())
+}
+```
+
+### 6. Implemente o módulo JavaScript
+
+I. Comece com o gerenciador de visualização personalizado:
+
+```tsx
+// MyViewManager.tsx
+
+import {requireNativeComponent} from 'react-native';
+
+export const MyViewManager =
+  requireNativeComponent('MyViewManager');
+```
+
+II. Em seguida, implemente a View personalizada chamando o método `create`:
+
+```tsx
+import React, {useEffect, useRef} from 'react';
+import {
+  PixelRatio,
+  UIManager,
+  findNodeHandle,
+} from 'react-native';
+
+import {MyViewManager} from './my-view-manager';
+
+const createFragment = viewId =>
+  UIManager.dispatchViewManagerCommand(
+    viewId,
+    // estamos chamando o comando 'criar'
+    UIManager.MyViewManager.Commands.create.toString(),
+    [viewId],
+  );
+
+export const MyView = () => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const viewId = findNodeHandle(ref.current);
+    createFragment(viewId);
+  }, []);
+
+  return (
+    <MyViewManager
+      style={{
+        // converte dpi em px, fornece a altura desejada
+        height: PixelRatio.getPixelSizeForLayoutSize(200),
+        // converte dpi em px, fornece a largura desejada
+        width: PixelRatio.getPixelSizeForLayoutSize(200),
+      }}
+      ref={ref}
+    />
+  );
+};
+```
+
+Se você deseja expor configuradores de propriedades usando a anotação `@ReactProp` (ou `@ReactPropGroup`), consulte o exemplo `ImageView` acima.
