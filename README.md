@@ -73,8 +73,8 @@
 * [Configuração do pacote NPM de módulos nativos](/docs/native-modules-setup.md)
 
 ## Native Components
-* Android Native UI Components
-* iOS Native UI Components
+* [Componentes de IU nativos do Android](/docs/native-components-android.md)
+* [Componentes de UI nativos do iOS](/docs/native-components-ios.md)
 * Direct Manipulation
 
 ## The New Architecture
