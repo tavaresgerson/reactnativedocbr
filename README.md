@@ -28,7 +28,7 @@
 * [Usando TypeScript](/docs/typescript.md)
 * [Atualizando para novas versões](/docs/upgrading.md)
 
-## UI & Interaction
+## UI & Interação
 * [Estilo](/docs/style.md)
 * [Altura e largura](/docs/height-and-width.md)
 * [Layout com Flexbox](/docs/flexbox.md)
@@ -44,6 +44,7 @@
     * [Segurança](/docs/security.md)
     ### Inclusion
     * [Acessibilidade](/docs/accessibility.md)
+
 ## Debugging
 * [Noções básicas de depuração](/docs/debugging.md)
 * [Ferramentas de desenvolvedor React](/docs/react-devtools.md)
@@ -66,60 +67,28 @@
 * [Timers](/docs/timers.md)
 * [Usando o Hermes](/docs/using-hermes.md)
 
-## Native Modules
+## Módulos Nativos
 * [Introdução aos módulos nativos](/docs/native-modules-intro.md)
 * [Módulos nativos do Android](/docs/native-modules-android.md)
 * [Módulos nativos iOS](/docs/native-modules-ios.md)
 * [Configuração do pacote NPM de módulos nativos](/docs/native-modules-setup.md)
 
-## Native Components
+## Componentes Nativos
 * [Componentes de IU nativos do Android](/docs/native-components-android.md)
 * [Componentes de UI nativos do iOS](/docs/native-components-ios.md)
-* Direct Manipulation
+* [Manipulação Direta](/docs/direct-manipulation.md)
 
-## The New Architecture
-* Introduction
-* Why a New Architecture
-* Creating a New Architecture App
+## Guias Android e iOS
 
-    ### Pillars
-    * What Composes the New Architecture
-    * Turbo Native Modules
-    * Fabric Native Components
-    * Codegen
+* ### Android
+    * [Headless JS](/docs/headless-js-android.md)
+    * [Publicação na Google Play Store](/docs/signed-apk-android.md)
+    * [Comunicação entre nativo e React Native](/docs/communication-android.md)
+    * [Plug-in React Native Gradle](/docs/react-native-gradle-plugin.md)
 
-    ### C++
-    * C++ Turbo Native Modules
-    * Supporting Custom C++ Types
-
-    ### Backward Compatibility
-    * What Backward Compatibility Is
-    * Turbo Modules as Legacy Native Modules
-    * Fabric Components as Legacy Native Components
-
-## Migration to the New Architecture
-* Migrating to the New Architecture
-
-    ### Supporting in your Library
-    * Prerequisites for Libraries
-    * Enabling in Android Library
-    * Enabling in iOS Library
-* Prerequisites for Applications
-* React 18 & React Native
-* Troubleshooting
-* Appendix
-
-## Android and iOS guides
-
-### Android
-* Headless JS
-* Publishing to Google Play Store
-* Communication between native and React Native
-* React Native Gradle Plugin
-
-### iOS
-* Linking Libraries
-* Running On Simulator
-* Communication between native and React Native
-* App Extensions    
-* Publishing to Apple App Store
+* ### iOS
+    * Linking Libraries
+    * Running On Simulator
+    * Communication between native and React Native
+    * App Extensions    
+    * Publishing to Apple App Store
