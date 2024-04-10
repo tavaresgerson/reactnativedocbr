@@ -92,3 +92,6 @@
     * [Comunicação entre nativo e React Native](/docs/communication-ios.md)
     * [Extensões de aplicativos](/docs/app-extensions.md)
     * [Publicação na Apple App Store](/docs/publishing-to-app-store.md)
+
+ ## Experimental
+ * [Sobre a Nova Arquitetura](/docs/the-new-architecture/landing-page.md)
