@@ -87,8 +87,8 @@
     * [Plug-in React Native Gradle](/docs/react-native-gradle-plugin.md)
 
 * ### iOS
-    * Linking Libraries
-    * Running On Simulator
-    * Communication between native and React Native
-    * App Extensions    
-    * Publishing to Apple App Store
+    * [Vinculando Bibliotecas](/docs/linking-libraries-ios.md)
+    * [Executando no Simulador](/docs/running-on-simulator-ios.md)
+    * [Comunicação entre nativo e React Native](/docs/communication-ios.md)
+    * [Extensões de aplicativos](/docs/app-extensions.md)
+    * [Publicação na Apple App Store](/docs/publishing-to-app-store.md)
