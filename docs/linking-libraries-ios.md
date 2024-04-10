@@ -1,4 +1,4 @@
-![image](https://github.com/tavaresgerson/reactnativedocbr/assets/22455192/ed2f583e-0b21-428a-abea-ff98868d9ec4)# Vinculando Bibliotecas
+# Vinculando Bibliotecas
 
 Nem todo aplicativo usa todos os recursos nativos, e incluir o código para suportar todos esses recursos afetaria o tamanho binário... Mas ainda queremos oferecer suporte à adição desses recursos sempre que você precisar deles.
 
