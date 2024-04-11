@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a4 as e}from"./chunks/framework.nQaBHiNx.js";const g=JSON.parse('{"title":"Estilo","description":"","frontmatter":{},"headers":[],"relativePath":"docs/style.md","filePath":"docs/style.md"}'),t={name:"docs/style.md"},n=e("",11),l=[n];function p(h,k,o,r,d,E){return a(),i("div",null,l)}const y=s(t,[["render",p]]);export{g as __pageData,y as default};

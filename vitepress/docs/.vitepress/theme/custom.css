@@ -1,0 +1,51 @@
+:root {
+    --vp-font-family-base: 'Montserrat';
+    /* --vp-c-brand-1: #333; */
+    /* --vp-c-brand-2: #747bff; */
+    /** --vp-font-family-mono: code font */
+}
+
+.one-image {
+    padding: 1em 0;
+    width: 100%;
+    text-align: center;
+}
+
+.one-image img {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.one-image figcaption {
+    font-style: italic;
+    padding: 1em 0;
+    font-size: .9em;
+}
+
+.rounded-shadow {
+    border-radius: 8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.two-images {
+    display: flex;
+    align-items: flex;
+    justify-content: space-between;
+}
+
+.two-images figure {
+    width: 50%;
+}
+
+.two-images figcaption {
+    font-size: .8em;
+    padding: 1em;
+    text-align: center;
+}
+
+.two-images img {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 250px;
+}

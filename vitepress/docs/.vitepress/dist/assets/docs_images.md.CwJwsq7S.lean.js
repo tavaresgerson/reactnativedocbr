@@ -1,0 +1,1 @@
+import{_ as a,c as s,o as i,a4 as e}from"./chunks/framework.nQaBHiNx.js";const g=JSON.parse('{"title":"Imagens","description":"","frontmatter":{},"headers":[],"relativePath":"docs/images.md","filePath":"docs/images.md"}'),n={name:"docs/images.md"},o=e("",71),t=[o];function d(p,r,l,h,c,k){return i(),s("div",null,t)}const u=a(n,[["render",d]]);export{g as __pageData,u as default};

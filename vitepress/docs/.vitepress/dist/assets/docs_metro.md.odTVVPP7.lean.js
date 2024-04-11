@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a4 as n}from"./chunks/framework.nQaBHiNx.js";const c=JSON.parse('{"title":"Metro","description":"","frontmatter":{},"headers":[],"relativePath":"docs/metro.md","filePath":"docs/metro.md"}'),e={name:"docs/metro.md"},t=n("",15),p=[t];function l(h,k,o,r,d,E){return a(),i("div",null,p)}const u=s(e,[["render",l]]);export{c as __pageData,u as default};

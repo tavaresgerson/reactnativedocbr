@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a4 as n}from"./chunks/framework.nQaBHiNx.js";const g=JSON.parse('{"title":"Rede","description":"","frontmatter":{},"headers":[],"relativePath":"docs/network.md","filePath":"docs/network.md"}'),e={name:"docs/network.md"},t=n("",37),p=[t];function l(h,k,r,o,d,E){return a(),i("div",null,p)}const y=s(e,[["render",l]]);export{g as __pageData,y as default};
